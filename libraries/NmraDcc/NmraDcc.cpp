@@ -106,7 +106,7 @@
 
 // if this is commented out, Zero-Bit_Stretching is not supported
 // ( Bits longer than 2* MAX ONEBIT are treated as error )
-#define SUPPORT_ZERO_BIT_STRETCHING
+//#define SUPPORT_ZERO_BIT_STRETCHING
 
 #define MAX_ONEBITFULL  146
 #define MAX_PRAEAMBEL   146

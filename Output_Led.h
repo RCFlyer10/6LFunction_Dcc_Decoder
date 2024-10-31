@@ -10,24 +10,27 @@
 
 #include <NmraDcc.h>
 
-#define On 1
-#define Off 0
+typedef enum {
+	Off,
+	On
+} ON_OFF;
 
-#define A 1
-#define B 0
+typedef enum {
+	B,
+	A
+} PHASE;
 
-
-// Modes
-#define NORMAL 0
-#define DIMMABLE 1
-#define STROBE 2
-#define RANDOM 3
-#define BEACON 4
-#define MARS 5
-#define FLICKER 6
-#define DITCH_A 7
-#define DITCH_B 8
-
+typedef enum {
+	NORMAL,
+	AUTO_DIM,
+	RANDOM,
+	STROBE,
+	BEACON,
+	MARS,
+	FLICKER,
+	DITCH_A,
+	DITCH_B
+} MODES; 
 
 // Fade mode config
 #define STEP 2
@@ -39,17 +42,13 @@
 #define PERIOD 1128U
 #define DURATION 50U
 
-// Random mode config
-#define TIME 15000U
-#define PROBABILITY 50U
-
 // Beacon mode congig
 #define START_ANGLE PI * 1.5
 #define MAX_ANGLE PI * 3.5
 
-extern DCC_DIRECTION direction;
+extern DCC_DIRECTION myDirection;
 
-extern uint8_t speed;
+extern uint8_t mySpeed;
 
 /*!
  *  @brief  Class that stores state and functions for the Funtion Led
@@ -59,11 +58,15 @@ public:
 	// Constructor
 	Output_Led(uint8_t pin);
 	// Methods
-	void setState(bool state);	
+	void setState(bool state);
+	const bool getState() const { return _state; }
 	void setEffect(uint8_t effect);
 	void setConfig_1(uint8_t value);
 	void setConfig_2(uint8_t value);
 	void setProbability(uint8_t value);
+	void setSampleTime(uint8_t tvalue);
+	void setSpeed(uint8_t value);
+	void setHoldoverTime(uint8_t value);
 	void activateCrossing();
 	void heartbeat();
 
@@ -82,7 +85,10 @@ private:
 	uint8_t _flashRate;
 	uint8_t _brightValue;
 	uint8_t _probability;
+	uint8_t _speedSetting;
 	uint16_t _fadeTime;
+	uint16_t _holdOverTime;
+	uint16_t _sampleTime;
 	bool _crossingActive;
 	bool _phase;
 	bool _fading;

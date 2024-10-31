@@ -29,7 +29,7 @@
   </revhistory>
   <decoder>
     <family name="6L Function Decoder" mfg="Public-domain and DIY">      
-      <model model="6L Function Decoder v 1.0" lowVersionID="10" highVersionID="20" productID="1575444" numOuts="6" numFns="28"/>
+      <model model="6L Function Decoder v 1.1" lowVersionID="11" highVersionID="20" productID="1575444" numOuts="6" numFns="28"/>
     </family>
     <programming direct="yes" paged="yes" register="yes" ops="yes">
 			<capability>
@@ -68,6 +68,146 @@
 			<xi:include href="http://jmri.org/xml/decoders/parts/enum-NormRev.xml"/>
 			<label>Locomotive Direction In Consist</label>
 			<tooltip>This loco runs Normal(default) or Reversed(address+128) when in the consist</tooltip>				
+		</variable>
+
+		<variable CV="21" mask="XXXXXXXV" item="Consist Address Active For F1" default="0" minFn="1">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>
+			<label>Consist Address Active For F1</label>			
+		</variable>
+		
+		<variable CV="21" mask="XXXXXXVX" item="Consist Address Active For F2" default="0" minFn="2">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>
+			<label>Consist Address Active For F2</label>
+			</variable>
+		
+		<variable CV="21" mask="XXXXXVXX" item="Consist Address Active For F3" default="0" minFn="3">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>			
+			<label>Consist Address Active For F3</label>			
+		</variable>
+		
+		<variable CV="21" mask="XXXXVXXX" item="Consist Address Active For F4" default="0" minFn="4">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>			
+			<label>Consist Address Active For F4</label>			
+		</variable>
+		
+		<variable CV="21" mask="XXXVXXXX" item="Consist Address Active For F5" default="0" minFn="5">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>			
+			<label>Consist Address Active For F5</label>    
+		</variable>
+		
+		<variable CV="21" mask="XXVXXXXX" item="Consist Address Active For F6" default="0" minFn="6">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>			
+			<label>Consist Address Active For F6</label>    
+		</variable>
+		
+		<variable CV="21" mask="XVXXXXXX" item="Consist Address Active For F7" default="0" minFn="7">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>				
+			<label>Consist Address Active For F7</label>    
+		</variable>
+		
+		<variable CV="21" mask="VXXXXXXX" item="Consist Address Active For F8" default="0" minFn="8">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>	
+			<label>Consist Address Active For F8</label>    
+		</variable>		
+		
+		<variable CV="22" mask="XXXXXXXV" item="Consist Address Active For FL in Forward">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>	
+			<label>Consist Address Active For FL in Forward</label>    
+		</variable>
+		
+		<variable CV="22" mask="XXXXXXVX" item="Consist Address Active For FL in Reverse">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>	
+			<label>Consist Address Active For FL in Reverse</label>    
+		</variable>
+  
+		<variable CV="22" mask="XXXXXVXX" item="Consist Address Active For F9" default="0" minFn="9">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>	
+			<label>Consist Address Activation for F9</label>    
+		</variable>
+		
+		<variable CV="22" mask="XXXXVXXX" item="Consist Address Active For F10" default="0" minFn="10">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>	
+			<label>Consist Address Activation for F10</label>    
+		</variable>
+  
+		<variable CV="22" mask="XXXVXXXX" item="Consist Address Active For F11" default="0" minFn="11">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>	
+			<label>Consist Address Activation for F11</label>    
+		</variable>
+  
+		<variable CV="22" mask="XXVXXXXX" item="Consist Address Active For F12" default="0" minFn="12">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>	
+			<label>Consist Address Activation for F12</label>    
 		</variable>		
 			
 		<variable CV="29" item="Address Format" mask="XXVXXXXX">
@@ -114,7 +254,11 @@
 		<variable CV="29" item="Advanced Ack" mask="XXXXVXXX">
 			<xi:include href="http://jmri.org/xml/decoders/parts/enum-disabledEnabled.xml"/>
 			<label>Advanced Decoder Acknowledgement</label>		
-		</variable>			
+		</variable>
+
+		<variable CV="30" item="Error Info" readOnly="yes">
+			<decVal/>
+		</variable>
 
 		<variable CV="47" item="ProductID1" readOnly="yes">
 			<decVal/>
@@ -256,6 +400,166 @@
 			<label>Reverse Directionl Control</label>
 		</variable>
 		
+		<variable CV="53" mask="XXXXXXXV" item="Consist Address Active For F13" default="0" minFn="13">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>	
+			<label>Consist Address Activation for F13</label>    
+		</variable>
+
+		<variable CV="53" mask="XXXXXXVX" item="Consist Address Active For F14" default="0" minFn="14">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>	
+			<label>Consist Address Activation for F14</label>    
+		</variable>
+
+		<variable CV="53" mask="XXXXXVXX" item="Consist Address Active For F15" default="0" minFn="15">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>	
+			<label>Consist Address Activation for F15</label>    
+		</variable>
+
+		<variable CV="53" mask="XXXXVXXX" item="Consist Address Active For F16" default="0" minFn="16">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>	
+			<label>Consist Address Activation for F16</label>    
+		</variable>
+
+		<variable CV="53" mask="XXXVXXXX" item="Consist Address Active For F17" default="0" minFn="17">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>	
+			<label>Consist Address Activation for F17</label>    
+		</variable>
+
+		<variable CV="53" mask="XXVXXXXX" item="Consist Address Active For F18" default="0" minFn="18">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>	
+			<label>Consist Address Activation for F18</label>    
+		</variable>	
+		
+		<variable CV="53" mask="XVXXXXXX" item="Consist Address Active For F19" default="0" minFn="19">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>	
+			<label>Consist Address Activation for F19</label>    
+		</variable>	
+		
+		<variable CV="53" mask="VXXXXXXX" item="Consist Address Active For F20" default="0" minFn="20">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>	
+			<label>Consist Address Activation for F20</label>    
+		</variable>
+
+		<variable CV="54" mask="XXXXXXXV" item="Consist Address Active For F21" default="0" minFn="21">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>	
+			<label>Consist Address Activation for F21</label>    
+		</variable>	
+		
+		<variable CV="54" mask="XXXXXXVX" item="Consist Address Active For F22" default="0" minFn="22">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>	
+			<label>Consist Address Activation for F22</label>    
+		</variable> 
+		
+		<variable CV="54" mask="XXXXXVXX" item="Consist Address Active For F23" default="0" minFn="23">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>	
+			<label>Consist Address Activation for F23</label>    
+		</variable>
+		
+		<variable CV="54" mask="XXXXVXXX" item="Consist Address Active For F24" default="0" minFn="24">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>	
+			<label>Consist Address Activation for F24</label>    
+		</variable>
+		
+		<variable CV="54" mask="XXXVXXXX" item="Consist Address Active For F25" default="0" minFn="25">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>	
+			<label>Consist Address Activation for F25</label>    
+		</variable>
+		
+		<variable CV="54" mask="XXVXXXXX" item="Consist Address Active For F26" default="0" minFn="26">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>	
+			<label>Consist Address Activation for F26</label>    
+		</variable>
+		
+		<variable CV="54" mask="XVXXXXXX" item="Consist Address Active For F27" default="0" minFn="27">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>	
+			<label>Consist Address Activation for F27</label>    
+		</variable>
+		
+		<variable CV="54" mask="VXXXXXXX" item="Consist Address Active For F28" default="0" minFn="28">
+			<enumVal>
+				<enumChoice choice="Decoder Address Only">		
+				</enumChoice>
+				<enumChoice choice="Respond to Consist Address">		
+				</enumChoice>
+			</enumVal>	
+			<label>Consist Address Activation for F28</label>    
+		</variable>
+		
 		<variable CV="112" item="FX1 Save State" readOnly="yes">
 			<decVal/>
 			<label>FX1 Save State</label>    
@@ -284,37 +588,7 @@
 		<variable CV="117" item="FX6 Save State" readOnly="yes">
 			<decVal/>
 			<label>FX6 Save State</label>    
-		</variable>
-		
-		<!-- <variable CV="118" item ="FX1 Save Config" mask ="XXXXXXXV" default="0" minOut="1">
-			<xi:include href="http://jmri.org/xml/decoders/parts/enum-NoYes.xml"/>
-			<label>FX1 Save State</label>
-			<tooltip>Select Yes/No. Yes = Save</tooltip>
-		</variable>
-
-		<variable CV="118" item ="FX2 Save Config" mask ="XXXXXXVX" default="0" minOut="2">
-			<xi:include href="http://jmri.org/xml/decoders/parts/enum-NoYes.xml"/>
-			<label>FX2 Save State</label>
-			<tooltip>Select Yes/No. Yes = Save</tooltip>
-		</variable>
-
-		<variable CV="118" item ="FX3 Save Config" mask ="XXXXXVXX" default="0" minOut="3">
-			<xi:include href="http://jmri.org/xml/decoders/parts/enum-NoYes.xml"/>
-			<label>FX3 Save State</label>
-			<tooltip>Select Yes/No. Yes = Save</tooltip>
-		</variable>
-
-		<variable CV="118" item ="FX4 Save Config" mask ="XXXXVXXX" default="0" minOut="4">
-			<xi:include href="http://jmri.org/xml/decoders/parts/enum-NoYes.xml"/>
-			<label>FX4 Save State</label>
-			<tooltip>Select Yes/No. Yes = Save</tooltip>
-		</variable>
-
-		<variable CV="118" item ="FX5 Save Config" mask ="XXXVXXXX" default="0" minOut="5">
-			<xi:include href="http://jmri.org/xml/decoders/parts/enum-NoYes.xml"/>
-			<label>FX5 Save State</label>
-			<tooltip>Select Yes/No. Yes = Save</tooltip>
-		</variable> -->
+		</variable>		
 
 		<variable CV="119" item ="FX Save Config" mask ="VXXXXXXX" default="0">
 			<xi:include href="http://jmri.org/xml/decoders/parts/enum-NoYes.xml"/>
@@ -332,11 +606,11 @@
 			<enumVal>
 				<enumChoice choice="Normal">
 				</enumChoice>
-				<enumChoice choice="Dimable">
+				<enumChoice choice="Auto Dim">
 				</enumChoice>				
-				<enumChoice choice="Strobe">
-				</enumChoice>
 				<enumChoice choice="Random">
+				</enumChoice>
+				<enumChoice choice="Strobe">
 				</enumChoice>
 				<enumChoice choice="Beacon">
 				</enumChoice>
@@ -357,11 +631,11 @@
 			<enumVal>
 				<enumChoice choice="Normal">
 				</enumChoice>
-				<enumChoice choice="Dimable">
+				<enumChoice choice="Auto Dim">
 				</enumChoice>				
-				<enumChoice choice="Strobe">
-				</enumChoice>
 				<enumChoice choice="Random">
+				</enumChoice>
+				<enumChoice choice="Strobe">
 				</enumChoice>
 				<enumChoice choice="Beacon">
 				</enumChoice>
@@ -382,11 +656,11 @@
 			<enumVal>
 				<enumChoice choice="Normal">
 				</enumChoice>
-				<enumChoice choice="Dimable">
+				<enumChoice choice="Auto Dim">
 				</enumChoice>				
-				<enumChoice choice="Strobe">
-				</enumChoice>
 				<enumChoice choice="Random">
+				</enumChoice>
+				<enumChoice choice="Strobe">
 				</enumChoice>
 				<enumChoice choice="Beacon">
 				</enumChoice>
@@ -407,11 +681,11 @@
 			<enumVal>
 				<enumChoice choice="Normal">
 				</enumChoice>
-				<enumChoice choice="Dimable">
+				<enumChoice choice="Auto Dim">
 				</enumChoice>				
-				<enumChoice choice="Strobe">
-				</enumChoice>
 				<enumChoice choice="Random">
+				</enumChoice>
+				<enumChoice choice="Strobe">
 				</enumChoice>
 				<enumChoice choice="Beacon">
 				</enumChoice>
@@ -432,11 +706,11 @@
 			<enumVal>
 				<enumChoice choice="Normal">
 				</enumChoice>
-				<enumChoice choice="Dimable">
+				<enumChoice choice="Auto Dim">
 				</enumChoice>				
-				<enumChoice choice="Strobe">
-				</enumChoice>
 				<enumChoice choice="Random">
+				</enumChoice>
+				<enumChoice choice="Strobe">
 				</enumChoice>
 				<enumChoice choice="Beacon">
 				</enumChoice>
@@ -457,11 +731,11 @@
 			<enumVal>
 				<enumChoice choice="Normal">
 				</enumChoice>
-				<enumChoice choice="Dimable">
+				<enumChoice choice="Auto Dim">
 				</enumChoice>				
-				<enumChoice choice="Strobe">
-				</enumChoice>
 				<enumChoice choice="Random">
+				</enumChoice>
+				<enumChoice choice="Strobe">
 				</enumChoice>
 				<enumChoice choice="Beacon">
 				</enumChoice>
@@ -485,9 +759,34 @@
 		</variable>
 
 		<variable CV="126" item="FX1 Dimmer" mask="VVVVXXXX" default="0" minOut="1">
+			<qualifier>
+				<variableref>FX1 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>0</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX1 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>2</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX1 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>3</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX1 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>4</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX1 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>5</value>
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Dimmer</label>
-			<tooltip>choose a value 0 - 15</tooltip>
+			<tooltip>choose a value 0 - 15</tooltip>			
 		</variable>
 			
 		<variable CV="127" item="FX2 Brightness" mask="XXXXVVVV" default="7" minOut="2">
@@ -497,9 +796,34 @@
 		</variable>
 
 		<variable CV="127" item="FX2 Dimmer" mask="VVVVXXXX" default="0" minOut="2">
+			<qualifier>
+				<variableref>FX2 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>0</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX2 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>2</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX2 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>3</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX2 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>4</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX2 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>5</value>
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Dimmer</label>
-			<tooltip>choose a value 0 - 15</tooltip>
+			<tooltip>choose a value 0 - 15</tooltip>			
 		</variable>			
 			
 		<variable CV="128" item="FX3 Brightness" mask="XXXXVVVV" default="7" minOut="3">
@@ -509,6 +833,31 @@
 		</variable>
 		
 		<variable CV="128" item="FX3 Dimmer" mask="VVVVXXXX" default="0" minOut="3">
+			<qualifier>
+				<variableref>FX3 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>0</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX3 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>2</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX3 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>3</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX3 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>4</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX3 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>5</value>
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Dimmer</label>
 			<tooltip>choose a value 0 - 15</tooltip>
@@ -521,9 +870,34 @@
 		</variable>
 
 		<variable CV="129" item="FX4 Dimmer" mask="VVVVXXXX" default="0" minOut="4">
+			<qualifier>
+				<variableref>FX4 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>0</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX4 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>2</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX4 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>3</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX4 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>4</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX4 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>5</value>
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Dimmer</label>
-			<tooltip>choose a value 0 - 15</tooltip>
+			<tooltip>choose a value 0 - 15</tooltip>			
 		</variable>			
 			
 		<variable CV="130" item="FX5 Brightness" mask="XXXXVVVV" default="7" minOut="5">
@@ -533,9 +907,34 @@
 		</variable>
 
 		<variable CV="130" item="FX5 Dimmer" mask="VVVVXXXX" default="0" minOut="5">
+			<qualifier>
+				<variableref>FX5 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>0</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX5 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>2</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX5 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>3</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX5 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>4</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX5 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>5</value>
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Dimmer</label>
-			<tooltip>choose a value 0 - 15</tooltip>
+			<tooltip>choose a value 0 - 15</tooltip>			
 		</variable>
 			
 		<variable CV="131" item="FX6 Brightness" mask="XXXXVVVV" default="7" minOut="6">
@@ -545,119 +944,552 @@
 		</variable>			
 			
 		<variable CV="131" item="FX6 Dimmer" mask="VVVVXXXX" default="0" minOut="6">
+			<qualifier>
+				<variableref>FX6 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>0</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX6 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>2</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX6 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>3</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX6 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>4</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX6 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>5</value>
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Dimmer</label>
-			<tooltip>choose a value 0 - 15</tooltip>
+			<tooltip>choose a value 0 - 15</tooltip>			
 		</variable>
 			
-		<variable CV="132" item="FX1 Fade Rate" mask="XXXXVVVV" default="7" minOut="1">
+		<variable CV="132" item="FX1 Fade Rate" mask="XXXXVVVV" default="0" minOut="1">
+			<qualifier>
+				<variableref>FX1 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>3</value>				
+			</qualifier>
+			<qualifier>
+				<variableref>FX1 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>4</value>				
+			</qualifier>
+			<qualifier>
+				<variableref>FX1 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>5</value>				
+			</qualifier>
+			<qualifier>
+				<variableref>FX1 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>6</value>				
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Fade Rate</label>
 			<tooltip>choose a value 0 - 15</tooltip>
 		</variable>
 
 		<variable CV="132" item="FX1 Flash Rate" mask="VVVVXXXX" default="7" minOut="1">
+			<qualifier>
+				<variableref>FX1 Efects Selection</variableref>
+				<relation>gt</relation>
+				<value>2</value>						
+			</qualifier>
+			<qualifier>
+				<variableref>FX1 Efects Selection</variableref>
+				<relation>lt</relation>
+				<value>7</value>						
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Flash Rate</label>
 			<tooltip>choose a value 0 - 15</tooltip>
 		</variable>
 			
-		<variable CV="133" item="FX2 Fade Rate" mask="XXXXVVVV" default="7" minOut="2">
+		<variable CV="133" item="FX2 Fade Rate" mask="XXXXVVVV" default="0" minOut="2">
+			<qualifier>
+				<variableref>FX2 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>3</value>				
+			</qualifier>
+			<qualifier>
+				<variableref>FX2 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>4</value>				
+			</qualifier>
+			<qualifier>
+				<variableref>FX2 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>5</value>				
+			</qualifier>
+			<qualifier>
+				<variableref>FX2 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>6</value>				
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Fade Rate</label>
 			<tooltip>choose a value 0 - 15</tooltip>
 		</variable>
 
 		<variable CV="133" item="FX2 Flash Rate" mask="VVVVXXXX" default="7" minOut="2">
+			<qualifier>
+				<variableref>FX2 Efects Selection</variableref>
+				<relation>gt</relation>
+				<value>2</value>						
+			</qualifier>
+			<qualifier>
+				<variableref>FX2 Efects Selection</variableref>
+				<relation>lt</relation>
+				<value>7</value>						
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Flash Rate</label>
 			<tooltip>choose a value 0 - 15</tooltip>
 		</variable>
 			
-		<variable CV="134" item="FX3 Fade Rate" mask="XXXXVVVV" default="7" minOut="3">
+		<variable CV="134" item="FX3 Fade Rate" mask="XXXXVVVV" default="0" minOut="3">
+			<qualifier>
+				<variableref>FX3 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>3</value>				
+			</qualifier>
+			<qualifier>
+				<variableref>FX3 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>4</value>				
+			</qualifier>
+			<qualifier>
+				<variableref>FX3 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>5</value>				
+			</qualifier>
+			<qualifier>
+				<variableref>FX3 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>6</value>				
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Fade Rate</label>
 			<tooltip>choose a value 0 - 15</tooltip>
 		</variable>
 
 		<variable CV="134" item="FX3 Flash Rate" mask="VVVVXXXX" default="7" minOut="3">
+			<qualifier>
+				<variableref>FX3 Efects Selection</variableref>
+				<relation>gt</relation>
+				<value>2</value>						
+			</qualifier>
+			<qualifier>
+				<variableref>FX3 Efects Selection</variableref>
+				<relation>lt</relation>
+				<value>7</value>						
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Flash Rate</label>
 			<tooltip>choose a value 0 - 15</tooltip>
 		</variable>
 			
-		<variable CV="135" item="FX4 Fade Rate" mask="XXXXVVVV" default="7" minOut="4">
+		<variable CV="135" item="FX4 Fade Rate" mask="XXXXVVVV" default="0" minOut="4">
+			<qualifier>
+				<variableref>FX4 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>3</value>				
+			</qualifier>
+			<qualifier>
+				<variableref>FX4 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>4</value>				
+			</qualifier>
+			<qualifier>
+				<variableref>FX4 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>5</value>				
+			</qualifier>
+			<qualifier>
+				<variableref>FX4 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>6</value>				
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Fade Rate</label>
 			<tooltip>choose a value 0 - 15</tooltip>
 		</variable>
 
 		<variable CV="135" item="FX4 Flash Rate" mask="VVVVXXXX" default="7" minOut="4">
+			<qualifier>
+				<variableref>FX4 Efects Selection</variableref>
+				<relation>gt</relation>
+				<value>2</value>						
+			</qualifier>
+			<qualifier>
+				<variableref>FX4 Efects Selection</variableref>
+				<relation>lt</relation>
+				<value>7</value>						
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Flash Rate</label>
 			<tooltip>choose a value 0 - 15</tooltip>
 		</variable>
 
-		<variable CV="136" item="FX5 Fade Rate" mask="XXXXVVVV" default="7" minOut="5">
+		<variable CV="136" item="FX5 Fade Rate" mask="XXXXVVVV" default="0" minOut="5">
+			<qualifier>
+				<variableref>FX5 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>3</value>				
+			</qualifier>
+			<qualifier>
+				<variableref>FX5 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>4</value>				
+			</qualifier>
+			<qualifier>
+				<variableref>FX5 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>5</value>				
+			</qualifier>
+			<qualifier>
+				<variableref>FX5 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>6</value>				
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Fade Rate</label>
 			<tooltip>choose a value 0 - 15</tooltip>
 		</variable>
 
 		<variable CV="136" item="FX5 Flash Rate" mask="VVVVXXXX" default="7" minOut="5">
+			<qualifier>
+				<variableref>FX5 Efects Selection</variableref>
+				<relation>gt</relation>
+				<value>2</value>						
+			</qualifier>
+			<qualifier>
+				<variableref>FX5 Efects Selection</variableref>
+				<relation>lt</relation>
+				<value>7</value>						
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Flash Rate</label>
 			<tooltip>choose a value 0 - 15</tooltip>
 		</variable>
 			
-		<variable CV="137" item="FX6 Fade Rate" mask="XXXXVVVV" default="7" minOut="6">
+		<variable CV="137" item="FX6 Fade Rate" mask="XXXXVVVV" default="0" minOut="6">
+			<qualifier>
+				<variableref>FX6 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>3</value>				
+			</qualifier>
+			<qualifier>
+				<variableref>FX6 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>4</value>				
+			</qualifier>
+			<qualifier>
+				<variableref>FX6 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>5</value>				
+			</qualifier>
+			<qualifier>
+				<variableref>FX6 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>6</value>				
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Fade Rate</label>
 			<tooltip>choose a value 0 - 15</tooltip>
 		</variable>			
 			
 		<variable CV="137" item="FX6 Flash Rate" mask="VVVVXXXX" default="7" minOut="6">
+			<qualifier>
+				<variableref>FX6 Efects Selection</variableref>
+				<relation>gt</relation>
+				<value>2</value>						
+			</qualifier>
+			<qualifier>
+				<variableref>FX6 Efects Selection</variableref>
+				<relation>lt</relation>
+				<value>7</value>						
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Flash Rate</label>
 			<tooltip>choose a value 0 - 15</tooltip>
 		</variable>
 			
 		<variable CV="138" item="FX1 Probability" default="50" minOut="1">
+			<qualifier>
+				<variableref>FX1 Efects Selection</variableref>
+				<relation>eq</relation>
+				<value>2</value>
+			</qualifier>
 			<decVal min="0" max="100"/>
 			<label>Random Probability</label>
 			<tooltip>choose a value 0 - 100</tooltip>
 		</variable>
 
-		<variable CV="139" item="FX2 Probability" default="50" minOut="1">
+		<variable CV="139" item="FX2 Probability" default="50" minOut="2">
+			<qualifier>
+				<variableref>FX2 Efects Selection</variableref>
+				<relation>eq</relation>
+				<value>2</value>
+			</qualifier>
 			<decVal min="0" max="100"/>
 			<label>Random Probability</label>
 			<tooltip>choose a value 0 - 100</tooltip>
 		</variable>
 
-		<variable CV="140" item="FX3 Probability" default="50" minOut="1">
+		<variable CV="140" item="FX3 Probability" default="50" minOut="3">
+			<qualifier>
+				<variableref>FX3 Efects Selection</variableref>
+				<relation>eq</relation>
+				<value>2</value>
+			</qualifier>
 			<decVal min="0" max="100"/>
 			<label>Random Probability</label>
 			<tooltip>choose a value 0 - 100</tooltip>
 		</variable>
 
-		<variable CV="141" item="FX4 Probability" default="50" minOut="1">
+		<variable CV="141" item="FX4 Probability" default="50" minOut="4">
+			<qualifier>
+				<variableref>FX4 Efects Selection</variableref>
+				<relation>eq</relation>
+				<value>2</value>
+			</qualifier>
 			<decVal min="0" max="100"/>
 			<label>Random Probability</label>
 			<tooltip>choose a value 0 - 100</tooltip>
 		</variable>
 
-		<variable CV="142" item="FX5 Probability" default="50" minOut="1">
+		<variable CV="142" item="FX5 Probability" default="50" minOut="5">
+			<qualifier>
+				<variableref>FX5 Efects Selection</variableref>
+				<relation>eq</relation>
+				<value>2</value>
+			</qualifier>
 			<decVal min="0" max="100"/>
 			<label>Random Probability</label>
 			<tooltip>choose a value 0 - 100</tooltip>
 		</variable>
 
-		<variable CV="143" item="FX6 Probability" default="50" minOut="1">
+		<variable CV="143" item="FX6 Probability" default="50" minOut="6">
+			<qualifier>
+				<variableref>FX6 Efects Selection</variableref>
+				<relation>eq</relation>
+				<value>2</value>
+			</qualifier>
 			<decVal min="0" max="100"/>
 			<label>Random Probability</label>
 			<tooltip>choose a value 0 - 100</tooltip>
 		</variable>
-
+		
+		<variable CV="144" item="FX1 Frequency" default="10" minOut="1">
+			<qualifier>
+				<variableref>FX1 Efects Selection</variableref>
+				<relation>eq</relation>
+				<value>2</value>
+			</qualifier>
+			<decVal min="1" max="65"/>
+			<label>Frequency of Change</label>
+			<tooltip>chose a value 1 - 65 in seconds. Time between changes</tooltip>
+		</variable>
+		
+		<variable CV="145" item="FX2 Frequency" default="10" minOut="2">
+			<qualifier>
+				<variableref>FX2 Efects Selection</variableref>
+				<relation>eq</relation>
+				<value>2</value>
+			</qualifier>
+			<decVal min="1" max="65"/>
+			<label>Frequency of Change</label>
+			<tooltip>chose a value 1 - 65 in seconds. Time between changes</tooltip>
+		</variable>
+		
+		<variable CV="146" item="FX3 Frequency" default="10" minOut="3">
+			<qualifier>
+				<variableref>FX3 Efects Selection</variableref>
+				<relation>eq</relation>
+				<value>2</value>
+			</qualifier>
+			<decVal min="1" max="65"/>
+			<label>Frequency of Change</label>
+			<tooltip>chose a value 1 - 65 in seconds. Time between changes</tooltip>
+		</variable>
+		
+		<variable CV="147" item="FX4 Frequency" default="10" minOut="4">
+			<qualifier>
+				<variableref>FX4 Efects Selection</variableref>
+				<relation>eq</relation>
+				<value>2</value>
+			</qualifier>
+			<decVal min="1" max="65"/>
+			<label>Frequency of Change</label>
+			<tooltip>chose a value 1 - 65 in seconds. Time between changes</tooltip>
+		</variable>
+		
+		<variable CV="148" item="FX5 Frequency" default="10" minOut="5">
+			<qualifier>
+				<variableref>FX5 Efects Selection</variableref>
+				<relation>eq</relation>
+				<value>2</value>
+			</qualifier>
+			<decVal min="1" max="65"/>
+			<label>Frequency of Change</label>
+			<tooltip>chose a value 1 - 65 in seconds. Time between changes</tooltip>
+		</variable>
+		
+		<variable CV="149" item="FX6 Frequency" default="10" minOut="6">
+			<qualifier>
+				<variableref>FX6 Efects Selection</variableref>
+				<relation>eq</relation>
+				<value>2</value>
+			</qualifier>
+			<decVal min="1" max="65"/>
+			<label>Frequency of Change</label>
+			<tooltip>chose a value 1 - 65 in seconds. Time between changes</tooltip>
+		</variable>
+		
+		<variable CV="150" item="FX1 Speed" default="0" minOut="1">
+			<qualifier>
+				<variableref>FX1 Efects Selection</variableref>
+				<relation>eq</relation>
+				<value>2</value>
+			</qualifier>
+			<decVal min="0" max="127"/>
+			<label>Speed Setting</label>
+			<tooltip>chose a value 0 - 127. 0 disables speed and direction effects. > 0 starts animations above that speed.</tooltip>
+		</variable>
+		
+		<variable CV="151" item="FX2 Speed" default="0" minOut="2">
+			<qualifier>
+				<variableref>FX2 Efects Selection</variableref>
+				<relation>eq</relation>
+				<value>2</value>
+			</qualifier>
+			<decVal min="0" max="127"/>
+			<label>Speed Setting</label>
+			<tooltip>chose a value 0 - 127. 0 disables speed and direction effects. > 0 starts animations above that speed.</tooltip>
+		</variable>
+		
+		<variable CV="152" item="FX3 Speed" default="0" minOut="3">
+			<qualifier>
+				<variableref>FX3 Efects Selection</variableref>
+				<relation>eq</relation>
+				<value>2</value>
+			</qualifier>
+			<decVal min="0" max="127"/>
+			<label>Speed Setting</label>
+			<tooltip>chose a value 0 - 127. 0 disables speed and direction effects. > 0 starts animations above that speed.</tooltip>
+		</variable>
+		
+		<variable CV="153" item="FX4 Speed" default="0" minOut="4">
+			<qualifier>
+				<variableref>FX4 Efects Selection</variableref>
+				<relation>eq</relation>
+				<value>2</value>
+			</qualifier>
+			<decVal min="0" max="127"/>
+			<label>Speed Setting</label>
+			<tooltip>chose a value 0 - 127. 0 disables speed and direction effects. > 0 starts animations above that speed.</tooltip>
+		</variable>
+		
+		<variable CV="154" item="FX5 Speed" default="0" minOut="5">
+			<qualifier>
+				<variableref>FX5 Efects Selection</variableref>
+				<relation>eq</relation>
+				<value>2</value>
+			</qualifier>
+			<decVal min="0" max="127"/>
+			<label>Speed Setting</label>
+			<tooltip>chose a value 0 - 127. 0 disables speed and direction effects. > 0 starts animations above that speed.</tooltip>
+		</variable>
+		
+		<variable CV="155" item="FX6 Speed" default="0" minOut="6">
+			<qualifier>
+				<variableref>FX6 Efects Selection</variableref>
+				<relation>eq</relation>
+				<value>2</value>
+			</qualifier>
+			<decVal min="0" max="127"/>
+			<label>Speed Setting</label>
+			<tooltip>chose a value 0 - 127. 0 disables speed and direction effects. > 0 starts animations above that speed.</tooltip>
+		</variable>
+		
+		<variable CV="156" item="FX1 Holdover" default="15" minOut="1">
+			<qualifier>
+				<variableref>FX1 Efects Selection</variableref>
+				<relation>gt</relation>
+				<value>6</value>
+			</qualifier>
+			<decVal min="1" max="65"/>
+			<label>Holdover Time</label>
+			<tooltip>chose a value 1 - 65</tooltip>
+		</variable>
+		
+		<variable CV="157" item="FX2 Holdover" default="15" minOut="2">
+			<qualifier>
+				<variableref>FX2 Efects Selection</variableref>
+				<relation>gt</relation>
+				<value>6</value>
+			</qualifier>
+			<decVal min="1" max="65"/>
+			<label>Holdover Time</label>
+			<tooltip>chose a value 1 - 65</tooltip>
+		</variable>
+		
+		<variable CV="158" item="FX3 Holdover" default="15" minOut="3">
+			<qualifier>
+				<variableref>FX3 Efects Selection</variableref>
+				<relation>gt</relation>
+				<value>6</value>
+			</qualifier>
+			<decVal min="1" max="65"/>
+			<label>Holdover Time</label>
+			<tooltip>chose a value 1 - 65</tooltip>
+		</variable>
+		
+		<variable CV="159" item="FX4 Holdover" default="15" minOut="4">
+			<qualifier>
+				<variableref>FX4 Efects Selection</variableref>
+				<relation>gt</relation>
+				<value>6</value>
+			</qualifier>
+			<decVal min="1" max="65"/>
+			<label>Holdover Time</label>
+			<tooltip>chose a value 1 - 65</tooltip>
+		</variable>
+		
+		<variable CV="160" item="FX5 Holdover" default="15" minOut="5">
+			<qualifier>
+				<variableref>FX5 Efects Selection</variableref>
+				<relation>gt</relation>
+				<value>6</value>
+			</qualifier>
+			<decVal min="1" max="65"/>
+			<label>Holdover Time</label>
+			<tooltip>chose a value 1 - 65</tooltip>
+		</variable>
+		
+		<variable CV="161" item="FX6 Holdover" default="15" minOut="6">
+			<qualifier>
+				<variableref>FX6 Efects Selection</variableref>
+				<relation>gt</relation>
+				<value>6</value>
+			</qualifier>
+			<decVal min="1" max="65"/>
+			<label>Holdover Time</label>
+			<tooltip>chose a value 1 - 65</tooltip>
+		</variable>
+		
 		<variable CV="200" item="F0 controls output 1" mask="XXXVXXXX" minOut="1" default= "1">
 			<xi:include href="http://jmri.org/xml/decoders/parts/enum-NoYes.xml"/>
 			<label> </label>				
@@ -1534,7 +2366,7 @@
 		</factReset>            
 	</resets>
 	</decoder>
-	<pane>
+	<!-- <pane>
 		<name>Consist</name>
 		<column>
 			<row>
@@ -1552,7 +2384,7 @@
 				<display item="Consist Direction"/>
 			</row>
 		</column>
-	</pane>
+	</pane> -->
 	<pane>
 		<name>Advanced</name>
 		<column>
@@ -1607,10 +2439,10 @@
 				<column>
 					<label>
 						<text>          </text>
+					</label>				
+					<label>
+						<text>                                  FX1</text>
 					</label>
-				<label>
-					<text>                                  FX1</text>
-				</label>
 					<label>
 						<text>  </text>
 					</label>
@@ -1619,36 +2451,138 @@
 						<text> </text>
 					</label>
 					<row>
-					<display item="FX1 Brightness" layout="above" label=""/>
-					<display item="FX1 Brightness" layout="above" format="hslider"/>
+						<display item="FX1 Brightness" layout="above" label=""/>
+						<display item="FX1 Brightness" layout="above" format="hslider"/>
 					</row>
 					<label>
+						<qualifier>
+							<variableref>FX1 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>0</value>
+						</qualifier>
+						<qualifier>
+							<variableref>FX1 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>2</value>
+						</qualifier>
+						<qualifier>
+							<variableref>FX1 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>3</value>
+						</qualifier>
+						<qualifier>
+							<variableref>FX1 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>4</value>
+						</qualifier>
+						<qualifier>
+							<variableref>FX1 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>5</value>
+						</qualifier>
 						<text> </text>
 					</label>
 					<row>
-					<display item="FX1 Dimmer" layout="above" label=""/>
-					<display item="FX1 Dimmer" layout="above" format="hslider"/>
+						<display item="FX1 Dimmer" layout="above" label=""/>
+						<display item="FX1 Dimmer" layout="above" format="hslider"/>
 					</row>
 					<label>
+						<qualifier>
+							<variableref>FX1 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>3</value>				
+						</qualifier>
+						<qualifier>
+							<variableref>FX1 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>4</value>				
+						</qualifier>
+						<qualifier>
+							<variableref>FX1 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>5</value>				
+						</qualifier>
+						<qualifier>
+							<variableref>FX1 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>6</value>				
+						</qualifier>
 						<text> </text>
 					</label>
 					<row>
-					<display item="FX1 Fade Rate" layout="above" label=""/>
-					<display item="FX1 Fade Rate" layout="above" format="hslider"/>
+						<display item="FX1 Fade Rate" layout="above" label=""/>
+						<display item="FX1 Fade Rate" layout="above" format="hslider"/>
 					</row>
 					<label>
+						<qualifier>
+							<variableref>FX1 Efects Selection</variableref>
+							<relation>gt</relation>
+							<value>2</value>						
+						</qualifier>
+						<qualifier>
+							<variableref>FX1 Efects Selection</variableref>
+							<relation>lt</relation>
+							<value>7</value>						
+						</qualifier>
 						<text> </text>
 					</label>
 					<row>
-					<display item="FX1 Flash Rate" layout="above" label=""/>
-					<display item="FX1 Flash Rate" layout="above" format="hslider"/>
+						<display item="FX1 Flash Rate" layout="above" label=""/>
+						<display item="FX1 Flash Rate" layout="above" format="hslider"/>
 					</row>
 					<label>
+						<qualifier>
+							<variableref>FX1 Efects Selection</variableref>
+							<relation>eq</relation>
+							<value>2</value>
+						</qualifier>
 						<text> </text>
 					</label>
 					<row>
-					<display item="FX1 Probability" layout="above" label=""/>
-					<display item="FX1 Probability" layout="above" format="hslider"/>
+						<display item="FX1 Probability" layout="above" label=""/>
+						<display item="FX1 Probability" layout="above" format="hslider"/>
+					</row>
+					<row>
+					<label>
+						<qualifier>
+							<variableref>FX1 Efects Selection</variableref>
+							<relation>eq</relation>
+							<value>2</value>
+						</qualifier>
+						<text>          </text>
+					</label>
+					</row>
+					<row>
+						<display item="FX1 Frequency" layout="above" label=""/>
+						<display item="FX1 Frequency" layout="above" format="hslider"/>
+					</row>
+					<row>
+					<label>
+						<qualifier>
+							<variableref>FX1 Efects Selection</variableref>
+							<relation>eq</relation>
+							<value>2</value>
+						</qualifier>
+						<text>          </text>
+					</label>
+					</row>
+					<row>
+						<display item="FX1 Speed" layout="above" label=""/>
+						<display item="FX1 Speed" layout="above" format="hslider"/>
+					</row>
+					<row>
+					<label>
+						<qualifier>
+							<variableref>FX1 Efects Selection</variableref>
+							<relation>gt</relation>
+							<value>6</value>
+						</qualifier>
+						<text>          </text>
+					</label>
+					</row>
+					<row>
+						<display item="FX1 Holdover" layout="above" label=""/>
+						<display item="FX1 Holdover" layout="above" format="hslider"/>
 					</row>
 					<row>
 					<label>
@@ -1656,12 +2590,11 @@
 					</label>
 					</row>
 					<row>
-					<display item="FX1 FWD Enable" format="checkbox"/>
+						<display item="FX1 FWD Enable" format="checkbox"/>
 					</row>
 					<row>
-					<display item="FX1 REV Enable" format="checkbox"/>
-					</row>
-				
+						<display item="FX1 REV Enable" format="checkbox"/>
+					</row>				
 				</column>
 				<column>
 					<label>
@@ -1677,10 +2610,10 @@
 				<column>
 					<label>
 						<text>          </text>
+					</label>				
+					<label>
+						<text>                                  FX2</text>
 					</label>
-				<label>
-					<text>                                  FX2</text>
-				</label>
 					<label>
 						<text>  </text>
 					</label>
@@ -1689,36 +2622,138 @@
 						<text> </text>
 					</label>
 					<row>
-					<display item="FX2 Brightness" layout="above" label=""/>
-					<display item="FX2 Brightness" layout="above" format="hslider"/>
+						<display item="FX2 Brightness" layout="above" label=""/>
+						<display item="FX2 Brightness" layout="above" format="hslider"/>
 					</row>
 					<label>
+						<qualifier>
+							<variableref>FX2 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>0</value>
+						</qualifier>
+						<qualifier>
+							<variableref>FX2 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>2</value>
+						</qualifier>
+						<qualifier>
+							<variableref>FX2 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>3</value>
+						</qualifier>
+						<qualifier>
+							<variableref>FX2 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>4</value>
+						</qualifier>
+						<qualifier>
+							<variableref>FX2 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>5</value>
+						</qualifier>
 						<text> </text>
 					</label>
 					<row>
-					<display item="FX2 Dimmer" layout="above" label=""/>
-					<display item="FX2 Dimmer" layout="above" format="hslider"/>
+						<display item="FX2 Dimmer" layout="above" label=""/>
+						<display item="FX2 Dimmer" layout="above" format="hslider"/>
 					</row>
 					<label>
+						<qualifier>
+							<variableref>FX2 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>3</value>				
+						</qualifier>
+						<qualifier>
+							<variableref>FX2 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>4</value>				
+						</qualifier>
+						<qualifier>
+							<variableref>FX2 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>5</value>				
+						</qualifier>
+						<qualifier>
+							<variableref>FX2 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>6</value>				
+						</qualifier>
 						<text> </text>
 					</label>
 					<row>
-					<display item="FX2 Fade Rate" layout="above" label=""/>
-					<display item="FX2 Fade Rate" layout="above" format="hslider"/>
+						<display item="FX2 Fade Rate" layout="above" label=""/>
+						<display item="FX2 Fade Rate" layout="above" format="hslider"/>
 					</row>
 					<label>
+						<qualifier>
+							<variableref>FX2 Efects Selection</variableref>
+							<relation>gt</relation>
+							<value>2</value>						
+						</qualifier>
+						<qualifier>
+							<variableref>FX2 Efects Selection</variableref>
+							<relation>lt</relation>
+							<value>7</value>						
+						</qualifier>
 						<text> </text>
 					</label>
 					<row>
-					<display item="FX2 Flash Rate" layout="above" label=""/>
-					<display item="FX2 Flash Rate" layout="above" format="hslider"/>
+						<display item="FX2 Flash Rate" layout="above" label=""/>
+						<display item="FX2 Flash Rate" layout="above" format="hslider"/>
 					</row>
 					<label>
+						<qualifier>
+							<variableref>FX2 Efects Selection</variableref>
+							<relation>eq</relation>
+							<value>2</value>
+						</qualifier>
 						<text> </text>
 					</label>
 					<row>
-					<display item="FX2 Probability" layout="above" label=""/>
-					<display item="FX2 Probability" layout="above" format="hslider"/>
+						<display item="FX2 Probability" layout="above" label=""/>
+						<display item="FX2 Probability" layout="above" format="hslider"/>
+					</row>
+					<row>
+					<label>
+						<qualifier>
+							<variableref>FX2 Efects Selection</variableref>
+							<relation>eq</relation>
+							<value>2</value>
+						</qualifier>
+						<text>          </text>
+					</label>
+					</row>
+					<row>
+						<display item="FX2 Frequency" layout="above" label=""/>
+						<display item="FX2 Frequency" layout="above" format="hslider"/>
+					</row>
+					<row>
+					<label>
+						<qualifier>
+							<variableref>FX2 Efects Selection</variableref>
+							<relation>eq</relation>
+							<value>2</value>
+						</qualifier>
+						<text>          </text>
+					</label>
+					</row>
+					<row>
+						<display item="FX2 Speed" layout="above" label=""/>
+						<display item="FX2 Speed" layout="above" format="hslider"/>
+					</row>
+					<row>
+					<label>
+						<qualifier>
+							<variableref>FX2 Efects Selection</variableref>
+							<relation>gt</relation>
+							<value>6</value>
+						</qualifier>
+						<text>          </text>
+					</label>
+					</row>
+					<row>
+						<display item="FX2 Holdover" layout="above" label=""/>
+						<display item="FX2 Holdover" layout="above" format="hslider"/>
 					</row>
 					<row>
 					<label>
@@ -1726,20 +2761,16 @@
 					</label>
 					</row>
 					<row>
-					<display item="FX2 FWD Enable" format="checkbox"/>
+						<display item="FX2 FWD Enable" format="checkbox"/>
 					</row>
 					<row>
-					<display item="FX2 REV Enable" format="checkbox"/>
-					</row>
-				
+						<display item="FX2 REV Enable" format="checkbox"/>
+					</row>				
 				</column>
 				<column>
 					<label>
 						<text>          </text>
 					</label>
-				
-				</column>
-				<column>					
 				</column>
 				<separator/>
 				<column>
@@ -1750,10 +2781,10 @@
 				<column>
 					<label>
 						<text>          </text>
+					</label>				
+					<label>
+						<text>                                  FX3</text>
 					</label>
-				<label>
-					<text>                             			    FX3</text>
-				</label>
 					<label>
 						<text>  </text>
 					</label>
@@ -1762,36 +2793,138 @@
 						<text> </text>
 					</label>
 					<row>
-					<display item="FX3 Brightness" layout="above" label=""/>
-					<display item="FX3 Brightness" layout="above" format="hslider"/>
+						<display item="FX3 Brightness" layout="above" label=""/>
+						<display item="FX3 Brightness" layout="above" format="hslider"/>
 					</row>
 					<label>
+						<qualifier>
+							<variableref>FX3 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>0</value>
+						</qualifier>
+						<qualifier>
+							<variableref>FX3 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>2</value>
+						</qualifier>
+						<qualifier>
+							<variableref>FX3 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>3</value>
+						</qualifier>
+						<qualifier>
+							<variableref>FX3 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>4</value>
+						</qualifier>
+						<qualifier>
+							<variableref>FX3 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>5</value>
+						</qualifier>
 						<text> </text>
 					</label>
 					<row>
-					<display item="FX3 Dimmer" layout="above" label=""/>
-					<display item="FX3 Dimmer" layout="above" format="hslider"/>
+						<display item="FX3 Dimmer" layout="above" label=""/>
+						<display item="FX3 Dimmer" layout="above" format="hslider"/>
 					</row>
 					<label>
+						<qualifier>
+							<variableref>FX3 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>3</value>				
+						</qualifier>
+						<qualifier>
+							<variableref>FX3 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>4</value>				
+						</qualifier>
+						<qualifier>
+							<variableref>FX3 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>5</value>				
+						</qualifier>
+						<qualifier>
+							<variableref>FX3 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>6</value>				
+						</qualifier>
 						<text> </text>
 					</label>
 					<row>
-					<display item="FX3 Fade Rate" layout="above" label=""/>
-					<display item="FX3 Fade Rate" layout="above" format="hslider"/>
+						<display item="FX3 Fade Rate" layout="above" label=""/>
+						<display item="FX3 Fade Rate" layout="above" format="hslider"/>
 					</row>
 					<label>
+						<qualifier>
+							<variableref>FX3 Efects Selection</variableref>
+							<relation>gt</relation>
+							<value>2</value>						
+						</qualifier>
+						<qualifier>
+							<variableref>FX3 Efects Selection</variableref>
+							<relation>lt</relation>
+							<value>7</value>						
+						</qualifier>
 						<text> </text>
 					</label>
 					<row>
-					<display item="FX3 Flash Rate" layout="above" label=""/>
-					<display item="FX3 Flash Rate" layout="above" format="hslider"/>
+						<display item="FX3 Flash Rate" layout="above" label=""/>
+						<display item="FX3 Flash Rate" layout="above" format="hslider"/>
 					</row>
 					<label>
+						<qualifier>
+							<variableref>FX3 Efects Selection</variableref>
+							<relation>eq</relation>
+							<value>2</value>
+						</qualifier>
 						<text> </text>
 					</label>
 					<row>
-					<display item="FX3 Probability" layout="above" label=""/>
-					<display item="FX3 Probability" layout="above" format="hslider"/>
+						<display item="FX3 Probability" layout="above" label=""/>
+						<display item="FX3 Probability" layout="above" format="hslider"/>
+					</row>
+					<row>
+					<label>
+						<qualifier>
+							<variableref>FX3 Efects Selection</variableref>
+							<relation>eq</relation>
+							<value>2</value>
+						</qualifier>
+						<text>          </text>
+					</label>
+					</row>
+					<row>
+						<display item="FX3 Frequency" layout="above" label=""/>
+						<display item="FX3 Frequency" layout="above" format="hslider"/>
+					</row>
+					<row>
+					<label>
+						<qualifier>
+							<variableref>FX3 Efects Selection</variableref>
+							<relation>eq</relation>
+							<value>2</value>
+						</qualifier>
+						<text>          </text>
+					</label>
+					</row>
+					<row>
+						<display item="FX3 Speed" layout="above" label=""/>
+						<display item="FX3 Speed" layout="above" format="hslider"/>
+					</row>
+					<row>
+					<label>
+						<qualifier>
+							<variableref>FX3 Efects Selection</variableref>
+							<relation>gt</relation>
+							<value>6</value>
+						</qualifier>
+						<text>          </text>
+					</label>
+					</row>
+					<row>
+						<display item="FX3 Holdover" layout="above" label=""/>
+						<display item="FX3 Holdover" layout="above" format="hslider"/>
 					</row>
 					<row>
 					<label>
@@ -1799,20 +2932,16 @@
 					</label>
 					</row>
 					<row>
-					<display item="FX3 FWD Enable" format="checkbox"/>
+						<display item="FX3 FWD Enable" format="checkbox"/>
 					</row>
 					<row>
-					<display item="FX3 REV Enable" format="checkbox"/>
-					</row>
-				
+						<display item="FX3 REV Enable" format="checkbox"/>
+					</row>				
 				</column>
 				<column>
 					<label>
 						<text>          </text>
 					</label>
-				
-				</column>
-				<column>					
 				</column>
 				<separator/>
 				<column>
@@ -1823,10 +2952,10 @@
 				<column>
 					<label>
 						<text>          </text>
+					</label>				
+					<label>
+						<text>                                  FX4</text>
 					</label>
-				<label>
-					<text>                                  FX4</text>
-				</label>
 					<label>
 						<text>  </text>
 					</label>
@@ -1835,36 +2964,138 @@
 						<text> </text>
 					</label>
 					<row>
-					<display item="FX4 Brightness" layout="above" label=""/>
-					<display item="FX4 Brightness" layout="above" format="hslider"/>
+						<display item="FX4 Brightness" layout="above" label=""/>
+						<display item="FX4 Brightness" layout="above" format="hslider"/>
 					</row>
 					<label>
+						<qualifier>
+							<variableref>FX4 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>0</value>
+						</qualifier>
+						<qualifier>
+							<variableref>FX4 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>2</value>
+						</qualifier>
+						<qualifier>
+							<variableref>FX4 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>3</value>
+						</qualifier>
+						<qualifier>
+							<variableref>FX4 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>4</value>
+						</qualifier>
+						<qualifier>
+							<variableref>FX4 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>5</value>
+						</qualifier>
 						<text> </text>
 					</label>
 					<row>
-					<display item="FX4 Dimmer" layout="above" label=""/>
-					<display item="FX4 Dimmer" layout="above" format="hslider"/>
+						<display item="FX4 Dimmer" layout="above" label=""/>
+						<display item="FX4 Dimmer" layout="above" format="hslider"/>
 					</row>
 					<label>
+						<qualifier>
+							<variableref>FX4 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>3</value>				
+						</qualifier>
+						<qualifier>
+							<variableref>FX4 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>4</value>				
+						</qualifier>
+						<qualifier>
+							<variableref>FX4 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>5</value>				
+						</qualifier>
+						<qualifier>
+							<variableref>FX4 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>6</value>				
+						</qualifier>
 						<text> </text>
 					</label>
 					<row>
-					<display item="FX4 Fade Rate" layout="above" label=""/>
-					<display item="FX4 Fade Rate" layout="above" format="hslider"/>
+						<display item="FX4 Fade Rate" layout="above" label=""/>
+						<display item="FX4 Fade Rate" layout="above" format="hslider"/>
 					</row>
 					<label>
+						<qualifier>
+							<variableref>FX4 Efects Selection</variableref>
+							<relation>gt</relation>
+							<value>2</value>						
+						</qualifier>
+						<qualifier>
+							<variableref>FX4 Efects Selection</variableref>
+							<relation>lt</relation>
+							<value>7</value>						
+						</qualifier>
 						<text> </text>
 					</label>
 					<row>
-					<display item="FX4 Flash Rate" layout="above" label=""/>
-					<display item="FX4 Flash Rate" layout="above" format="hslider"/>
+						<display item="FX4 Flash Rate" layout="above" label=""/>
+						<display item="FX4 Flash Rate" layout="above" format="hslider"/>
 					</row>
 					<label>
+						<qualifier>
+							<variableref>FX4 Efects Selection</variableref>
+							<relation>eq</relation>
+							<value>2</value>
+						</qualifier>
 						<text> </text>
 					</label>
 					<row>
-					<display item="FX4 Probability" layout="above" label=""/>
-					<display item="FX4 Probability" layout="above" format="hslider"/>
+						<display item="FX4 Probability" layout="above" label=""/>
+						<display item="FX4 Probability" layout="above" format="hslider"/>
+					</row>
+					<row>
+					<label>
+						<qualifier>
+							<variableref>FX4 Efects Selection</variableref>
+							<relation>eq</relation>
+							<value>2</value>
+						</qualifier>
+						<text>          </text>
+					</label>
+					</row>
+					<row>
+						<display item="FX4 Frequency" layout="above" label=""/>
+						<display item="FX4 Frequency" layout="above" format="hslider"/>
+					</row>
+					<row>
+					<label>
+						<qualifier>
+							<variableref>FX4 Efects Selection</variableref>
+							<relation>eq</relation>
+							<value>2</value>
+						</qualifier>
+						<text>          </text>
+					</label>
+					</row>
+					<row>
+						<display item="FX4 Speed" layout="above" label=""/>
+						<display item="FX4 Speed" layout="above" format="hslider"/>
+					</row>
+					<row>
+					<label>
+						<qualifier>
+							<variableref>FX4 Efects Selection</variableref>
+							<relation>gt</relation>
+							<value>6</value>
+						</qualifier>
+						<text>          </text>
+					</label>
+					</row>
+					<row>
+						<display item="FX4 Holdover" layout="above" label=""/>
+						<display item="FX4 Holdover" layout="above" format="hslider"/>
 					</row>
 					<row>
 					<label>
@@ -1872,86 +3103,17 @@
 					</label>
 					</row>
 					<row>
-					<display item="FX4 FWD Enable" format="checkbox"/>
+						<display item="FX4 FWD Enable" format="checkbox"/>
 					</row>
 					<row>
-					<display item="FX4 REV Enable" format="checkbox"/>
+						<display item="FX4 REV Enable" format="checkbox"/>
 					</row>				
-				</column>			
-			</row>
-			<row>
-				<!-- <label> -->
-						<!-- <text>          </text> -->
-					<!-- </label> -->
+				</column>
+				<column>
 					<label>
 						<text>          </text>
 					</label>
-				</row>
-			<separator/>
-			<row>
-			<column>
-					<label>
-						<text>          </text>
-					</label>
-				<label>
-					<text>                                  FX5</text>
-				</label>
-					<label>
-						<text>  </text>
-					</label>
-					<display item="FX5 Efects Selection"/>
-					<label>
-						<text> </text>
-					</label>
-					<row>
-					<display item="FX5 Brightness" layout="above" label=""/>
-					<display item="FX5 Brightness" layout="above" format="hslider"/>
-					</row>
-					<label>
-						<text> </text>
-					</label>
-					<row>
-					<display item="FX5 Dimmer" layout="above" label=""/>
-					<display item="FX5 Dimmer" layout="above" format="hslider"/>
-					</row>
-					<label>
-						<text> </text>
-					</label>
-					<row>
-					<display item="FX5 Fade Rate" layout="above" label=""/>
-					<display item="FX5 Fade Rate" layout="above" format="hslider"/>
-					</row>
-					<label>
-						<text> </text>
-					</label>
-					<row>
-					<display item="FX5 Flash Rate" layout="above" label=""/>
-					<display item="FX5 Flash Rate" layout="above" format="hslider"/>
-					</row>
-					<label>
-						<text> </text>
-					</label>
-					<row>
-					<display item="FX5 Probability" layout="above" label=""/>
-					<display item="FX5 Probability" layout="above" format="hslider"/>
-					</row>
-					<row>
-					<label>
-						<text>          </text>
-					</label>
-					</row>
-					<row>
-					<display item="FX5 FWD Enable" format="checkbox"/>
-					</row>
-					<row>
-					<display item="FX5 REV Enable" format="checkbox"/>
-					</row>
-					</column>
-					<column>
-					<label>
-						<text>          </text>
-					</label>				
-				</column>				
+				</column>
 				<separator/>
 				<column>
 				<label>
@@ -1961,10 +3123,181 @@
 				<column>
 					<label>
 						<text>          </text>
+					</label>				
+					<label>
+						<text>                                  FX5</text>
 					</label>
+					<label>
+						<text>  </text>
+					</label>
+					<display item="FX5 Efects Selection"/>
+					<label>
+						<text> </text>
+					</label>
+					<row>
+						<display item="FX5 Brightness" layout="above" label=""/>
+						<display item="FX5 Brightness" layout="above" format="hslider"/>
+					</row>
+					<label>
+						<qualifier>
+							<variableref>FX5 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>0</value>
+						</qualifier>
+						<qualifier>
+							<variableref>FX5 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>2</value>
+						</qualifier>
+						<qualifier>
+							<variableref>FX5 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>3</value>
+						</qualifier>
+						<qualifier>
+							<variableref>FX5 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>4</value>
+						</qualifier>
+						<qualifier>
+							<variableref>FX5 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>5</value>
+						</qualifier>
+						<text> </text>
+					</label>
+					<row>
+						<display item="FX5 Dimmer" layout="above" label=""/>
+						<display item="FX5 Dimmer" layout="above" format="hslider"/>
+					</row>
+					<label>
+						<qualifier>
+							<variableref>FX5 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>3</value>				
+						</qualifier>
+						<qualifier>
+							<variableref>FX5 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>4</value>				
+						</qualifier>
+						<qualifier>
+							<variableref>FX5 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>5</value>				
+						</qualifier>
+						<qualifier>
+							<variableref>FX5 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>6</value>				
+						</qualifier>
+						<text> </text>
+					</label>
+					<row>
+						<display item="FX5 Fade Rate" layout="above" label=""/>
+						<display item="FX5 Fade Rate" layout="above" format="hslider"/>
+					</row>
+					<label>
+						<qualifier>
+							<variableref>FX5 Efects Selection</variableref>
+							<relation>gt</relation>
+							<value>2</value>						
+						</qualifier>
+						<qualifier>
+							<variableref>FX5 Efects Selection</variableref>
+							<relation>lt</relation>
+							<value>7</value>						
+						</qualifier>
+						<text> </text>
+					</label>
+					<row>
+						<display item="FX5 Flash Rate" layout="above" label=""/>
+						<display item="FX5 Flash Rate" layout="above" format="hslider"/>
+					</row>
+					<label>
+						<qualifier>
+							<variableref>FX5 Efects Selection</variableref>
+							<relation>eq</relation>
+							<value>2</value>
+						</qualifier>
+						<text> </text>
+					</label>
+					<row>
+						<display item="FX5 Probability" layout="above" label=""/>
+						<display item="FX5 Probability" layout="above" format="hslider"/>
+					</row>
+					<row>
+					<label>
+						<qualifier>
+							<variableref>FX5 Efects Selection</variableref>
+							<relation>eq</relation>
+							<value>2</value>
+						</qualifier>
+						<text>          </text>
+					</label>
+					</row>
+					<row>
+						<display item="FX5 Frequency" layout="above" label=""/>
+						<display item="FX5 Frequency" layout="above" format="hslider"/>
+					</row>
+					<row>
+					<label>
+						<qualifier>
+							<variableref>FX5 Efects Selection</variableref>
+							<relation>eq</relation>
+							<value>2</value>
+						</qualifier>
+						<text>          </text>
+					</label>
+					</row>
+					<row>
+						<display item="FX5 Speed" layout="above" label=""/>
+						<display item="FX5 Speed" layout="above" format="hslider"/>
+					</row>
+					<row>
+					<label>
+						<qualifier>
+							<variableref>FX5 Efects Selection</variableref>
+							<relation>gt</relation>
+							<value>6</value>
+						</qualifier>
+						<text>          </text>
+					</label>
+					</row>
+					<row>
+						<display item="FX5 Holdover" layout="above" label=""/>
+						<display item="FX5 Holdover" layout="above" format="hslider"/>
+					</row>
+					<row>
+					<label>
+						<text>          </text>
+					</label>
+					</row>
+					<row>
+						<display item="FX5 FWD Enable" format="checkbox"/>
+					</row>
+					<row>
+						<display item="FX5 REV Enable" format="checkbox"/>
+					</row>				
+				</column>
+				<column>
+					<label>
+						<text>          </text>
+					</label>
+				</column>
+				<separator/>
+				<column>
 				<label>
-					<text>                                  FX6</text>
+						<text>	        </text>
 				</label>
+				</column>
+				<column>
+					<label>
+						<text>          </text>
+					</label>				
+					<label>
+						<text>                                  FX6</text>
+					</label>
 					<label>
 						<text>  </text>
 					</label>
@@ -1973,36 +3306,138 @@
 						<text> </text>
 					</label>
 					<row>
-					<display item="FX6 Brightness" layout="above" label=""/>
-					<display item="FX6 Brightness" layout="above" format="hslider"/>
+						<display item="FX6 Brightness" layout="above" label=""/>
+						<display item="FX6 Brightness" layout="above" format="hslider"/>
 					</row>
 					<label>
+						<qualifier>
+							<variableref>FX6 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>0</value>
+						</qualifier>
+						<qualifier>
+							<variableref>FX6 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>2</value>
+						</qualifier>
+						<qualifier>
+							<variableref>FX6 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>3</value>
+						</qualifier>
+						<qualifier>
+							<variableref>FX6 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>4</value>
+						</qualifier>
+						<qualifier>
+							<variableref>FX6 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>5</value>
+						</qualifier>
 						<text> </text>
 					</label>
 					<row>
-					<display item="FX6 Dimmer" layout="above" label=""/>
-					<display item="FX6 Dimmer" layout="above" format="hslider"/>
+						<display item="FX6 Dimmer" layout="above" label=""/>
+						<display item="FX6 Dimmer" layout="above" format="hslider"/>
 					</row>
 					<label>
+						<qualifier>
+							<variableref>FX6 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>3</value>				
+						</qualifier>
+						<qualifier>
+							<variableref>FX6 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>4</value>				
+						</qualifier>
+						<qualifier>
+							<variableref>FX6 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>5</value>				
+						</qualifier>
+						<qualifier>
+							<variableref>FX6 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>6</value>				
+						</qualifier>
 						<text> </text>
 					</label>
 					<row>
-					<display item="FX6 Fade Rate" layout="above" label=""/>
-					<display item="FX6 Fade Rate" layout="above" format="hslider"/>
+						<display item="FX6 Fade Rate" layout="above" label=""/>
+						<display item="FX6 Fade Rate" layout="above" format="hslider"/>
 					</row>
 					<label>
+						<qualifier>
+							<variableref>FX6 Efects Selection</variableref>
+							<relation>gt</relation>
+							<value>2</value>						
+						</qualifier>
+						<qualifier>
+							<variableref>FX6 Efects Selection</variableref>
+							<relation>lt</relation>
+							<value>7</value>						
+						</qualifier>
 						<text> </text>
 					</label>
 					<row>
-					<display item="FX6 Flash Rate" layout="above" label=""/>
-					<display item="FX6 Flash Rate" layout="above" format="hslider"/>
+						<display item="FX6 Flash Rate" layout="above" label=""/>
+						<display item="FX6 Flash Rate" layout="above" format="hslider"/>
 					</row>
 					<label>
+						<qualifier>
+							<variableref>FX6 Efects Selection</variableref>
+							<relation>eq</relation>
+							<value>2</value>
+						</qualifier>
 						<text> </text>
 					</label>
 					<row>
-					<display item="FX6 Probability" layout="above" label=""/>
-					<display item="FX6 Probability" layout="above" format="hslider"/>
+						<display item="FX6 Probability" layout="above" label=""/>
+						<display item="FX6 Probability" layout="above" format="hslider"/>
+					</row>
+					<row>
+					<label>
+						<qualifier>
+							<variableref>FX6 Efects Selection</variableref>
+							<relation>eq</relation>
+							<value>2</value>
+						</qualifier>
+						<text>          </text>
+					</label>
+					</row>
+					<row>
+						<display item="FX6 Frequency" layout="above" label=""/>
+						<display item="FX6 Frequency" layout="above" format="hslider"/>
+					</row>
+					<row>
+					<label>
+						<qualifier>
+							<variableref>FX6 Efects Selection</variableref>
+							<relation>eq</relation>
+							<value>2</value>
+						</qualifier>
+						<text>          </text>
+					</label>
+					</row>
+					<row>
+						<display item="FX6 Speed" layout="above" label=""/>
+						<display item="FX6 Speed" layout="above" format="hslider"/>
+					</row>
+					<row>
+					<label>
+						<qualifier>
+							<variableref>FX6 Efects Selection</variableref>
+							<relation>gt</relation>
+							<value>6</value>
+						</qualifier>
+						<text>          </text>
+					</label>
+					</row>
+					<row>
+						<display item="FX6 Holdover" layout="above" label=""/>
+						<display item="FX6 Holdover" layout="above" format="hslider"/>
 					</row>
 					<row>
 					<label>
@@ -2010,14 +3445,14 @@
 					</label>
 					</row>
 					<row>
-					<display item="FX6 FWD Enable" format="checkbox"/>
+						<display item="FX6 FWD Enable" format="checkbox"/>
 					</row>
 					<row>
-					<display item="FX6 REV Enable" format="checkbox"/>
-					</row>
-					</column>
-			</row>
-		</column>
+						<display item="FX6 REV Enable" format="checkbox"/>
+					</row>				
+				</column>
+			</row>	
+		</column>		
 	</pane>
 	<pane>
 		<name>Function Map</name>

@@ -3,7 +3,8 @@
 uint8_t indexedValue[] = { 0, 2, 4, 8, 16, 24, 32, 56, 72, 88, 104, 120, 136, 168, 200, 255 };
 
 Output_Led::Output_Led(uint8_t pin) {
-	_pin = pin; 
+	_pin = pin;
+	pinMode(pin, OUTPUT);
 	_state = Off;
 	_effect = 0;
 	_fade = 0;
@@ -20,7 +21,7 @@ void Output_Led::setEffect(uint8_t effect) {
 
 void Output_Led::setConfig_1(uint8_t value) {	
 	_brightValue = indexedValue[value & 0x0f];	
-	_dimValue = indexedValue[value & 0xf0];
+	_dimValue = indexedValue[(value & 0xf0) >> 4];
 	setFadeTime();
 }
 
@@ -35,16 +36,33 @@ void Output_Led::setProbability(uint8_t value) {
 	_probability = value;
 }
 
+void Output_Led::setSampleTime(uint8_t value) {
+	_sampleTime = value * 1000;
+}
+
+void Output_Led::setSpeed(uint8_t value) {
+	_speedSetting = value;
+}
+
+void Output_Led::setHoldoverTime(uint8_t value) {
+	_holdOverTime = value * 1000;
+}
+
 void Output_Led::setState(bool state) {
 	if (_state != state) {
-		_ledState = LOW;
-		_fadeDir = true;
-		_fading = true;
-		_phase = true;
-		_crossingActive = false;
-		_crossingTimer = 0;
-		_previousMillis = 0;
-		_randomNumber = random(100);		
+		if (state == Off) {
+			_ledState = LOW;
+			_crossingActive = false;
+			_previousMillis = 0;
+		}
+		else {
+			
+			_fadeDir = true;
+			_fading = true;
+			_fadeOn = false;
+			_fadeOff = false;
+			_randomNumber = random(100);
+		}			
 	}
 	_state = state;
 }
@@ -67,23 +85,36 @@ void Output_Led::setFadeTime() {
 
 void Output_Led::heartbeat() {
 	unsigned long currentMillis = millis();
-	switch (_effect) {
+	switch (_effect) 
+	{
 		case NORMAL: 
 			if (_state == On) {
-				if (_fade < _brightValue) {
-					_fadeOn = true;
+				if (_fadeRate > 0) {
+					if (_fade < _brightValue) {
+						_fadeOn = true;
+					}
 				}
+				else {
+					analogWrite(_pin, 255 - _brightValue);					
+				}
+				
 			}
 			else {
-				if (_fade > 0) {
-					_fadeOff = true;
+				if (_fadeRate > 0) {
+					if (_fade > 0) {
+						_fadeOff = true;
+					}
 				}
+				else {
+					analogWrite(_pin, 255);					
+				}
+				
 			}
 			break;
 		
-		case DIMMABLE: 
+		case AUTO_DIM: 
 			if (_state == On) {
-				if (direction == DCC_DIR_REV) {
+				if (myDirection == DCC_DIR_REV) {
 					analogWrite(_pin, 255 - _dimValue);
 				}
 				else {
@@ -118,7 +149,7 @@ void Output_Led::heartbeat() {
 		
 		case RANDOM: 
 			if (_state == On) {
-				if (speed < 10 || direction == DCC_DIR_REV) {
+				if (_speedSetting != 0 && (mySpeed < _speedSetting || myDirection == DCC_DIR_REV)) {
 					if (_fade < _brightValue) {
 						_fadeOn = true;
 						_fadeOff = false;
@@ -126,7 +157,7 @@ void Output_Led::heartbeat() {
 					_ledState = HIGH;
 					_previousMillis = currentMillis;
 				}
-				if (speed > 10 && direction == DCC_DIR_FWD && currentMillis - _previousMillis >= TIME) {					
+				else if (currentMillis - _previousMillis >= _sampleTime) {
 					if (_probability >= _randomNumber) {
 						if (_ledState == HIGH) {
 							_ledState = LOW;
@@ -240,7 +271,7 @@ void Output_Led::heartbeat() {
 						}
 						_previousMillis = currentMillis;
 					}
-					if (currentMillis - _crossingTimer > 15000) {
+					if (currentMillis - _crossingTimer > _holdOverTime) {
 						_crossingActive = false;
 					}
 				}
@@ -266,7 +297,7 @@ void Output_Led::heartbeat() {
 						}
 						_previousMillis = currentMillis;
 					}
-					if (currentMillis - _crossingTimer > 15000) {
+					if (currentMillis - _crossingTimer > _holdOverTime) {
 						_crossingActive = false;
 					}
 				}
