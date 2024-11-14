@@ -146,6 +146,24 @@ void Output_Led::heartbeat() {
 				analogWrite(_pin, 255);
 			}
 			break;
+
+		case BLINK:
+			if (_state == On) {
+				if (currentMillis - _previousMillis >= PERIOD - (_flashRate << 1)) {
+					_ledState = !_ledState;
+					_previousMillis = currentMillis;
+				}
+				if (_ledState == HIGH) {
+					analogWrite(_pin, 255 - _brightValue);
+				}
+				else {
+					analogWrite(_pin, 255);
+				}
+			}
+			else {
+				analogWrite(_pin, 255);
+			}
+			break;
 		
 		case RANDOM: 
 			if (_state == On) {

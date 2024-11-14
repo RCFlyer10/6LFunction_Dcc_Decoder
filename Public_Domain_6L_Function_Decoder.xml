@@ -29,7 +29,7 @@
   </revhistory>
   <decoder>
     <family name="6L Function Decoder" mfg="Public-domain and DIY">      
-      <model model="6L Function Decoder v 1.1" lowVersionID="11" highVersionID="20" productID="1575444" numOuts="6" numFns="28"/>
+      <model model="6L Function Decoder v 1.2" lowVersionID="12" highVersionID="20" productID="1575444" numOuts="6" numFns="28"/>
     </family>
     <programming direct="yes" paged="yes" register="yes" ops="yes">
 			<capability>
@@ -618,6 +618,8 @@
 				</enumChoice>
 				<enumChoice choice="Flicker">
 				</enumChoice>
+				<enumChoice choice="Blink">
+				</enumChoice>
 				<enumChoice choice="Ditch Phase A">
 				</enumChoice>
 				<enumChoice choice="Ditch Phase B">
@@ -642,6 +644,8 @@
 				<enumChoice choice="Mars">
 				</enumChoice>
 				<enumChoice choice="Flicker">
+				</enumChoice>
+				<enumChoice choice="Blink">
 				</enumChoice>
 				<enumChoice choice="Ditch Phase A">
 				</enumChoice>
@@ -668,6 +672,8 @@
 				</enumChoice>
 				<enumChoice choice="Flicker">
 				</enumChoice>
+				<enumChoice choice="Blink">
+				</enumChoice>
 				<enumChoice choice="Ditch Phase A">
 				</enumChoice>
 				<enumChoice choice="Ditch Phase B">
@@ -692,6 +698,8 @@
 				<enumChoice choice="Mars">
 				</enumChoice>
 				<enumChoice choice="Flicker">
+				</enumChoice>
+				<enumChoice choice="Blink">
 				</enumChoice>
 				<enumChoice choice="Ditch Phase A">
 				</enumChoice>
@@ -718,6 +726,8 @@
 				</enumChoice>
 				<enumChoice choice="Flicker">
 				</enumChoice>
+				<enumChoice choice="Blink">
+				</enumChoice>
 				<enumChoice choice="Ditch Phase A">
 				</enumChoice>
 				<enumChoice choice="Ditch Phase B">
@@ -742,6 +752,8 @@
 				<enumChoice choice="Mars">
 				</enumChoice>
 				<enumChoice choice="Flicker">
+				</enumChoice>
+				<enumChoice choice="Blink">
 				</enumChoice>
 				<enumChoice choice="Ditch Phase A">
 				</enumChoice>
@@ -784,6 +796,11 @@
 				<relation>ne</relation>
 				<value>5</value>
 			</qualifier>
+			<qualifier>
+				<variableref>FX1 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>7</value>
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Dimmer</label>
 			<tooltip>choose a value 0 - 15</tooltip>			
@@ -820,6 +837,11 @@
 				<variableref>FX2 Efects Selection</variableref>
 				<relation>ne</relation>
 				<value>5</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX2 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>7</value>
 			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Dimmer</label>
@@ -858,6 +880,11 @@
 				<relation>ne</relation>
 				<value>5</value>
 			</qualifier>
+			<qualifier>
+				<variableref>FX3 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>7</value>
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Dimmer</label>
 			<tooltip>choose a value 0 - 15</tooltip>
@@ -894,6 +921,11 @@
 				<variableref>FX4 Efects Selection</variableref>
 				<relation>ne</relation>
 				<value>5</value>
+			</qualifier>
+			<qualifier>
+				<variableref>FX4 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>7</value>
 			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Dimmer</label>
@@ -932,6 +964,11 @@
 				<relation>ne</relation>
 				<value>5</value>
 			</qualifier>
+			<qualifier>
+				<variableref>FX5 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>7</value>
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Dimmer</label>
 			<tooltip>choose a value 0 - 15</tooltip>			
@@ -969,6 +1006,11 @@
 				<relation>ne</relation>
 				<value>5</value>
 			</qualifier>
+			<qualifier>
+				<variableref>FX6 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>7</value>
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Dimmer</label>
 			<tooltip>choose a value 0 - 15</tooltip>			
@@ -995,6 +1037,11 @@
 				<relation>ne</relation>
 				<value>6</value>				
 			</qualifier>
+			<qualifier>
+				<variableref>FX1 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>7</value>				
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Fade Rate</label>
 			<tooltip>choose a value 0 - 15</tooltip>
@@ -1009,7 +1056,7 @@
 			<qualifier>
 				<variableref>FX1 Efects Selection</variableref>
 				<relation>lt</relation>
-				<value>7</value>						
+				<value>8</value>						
 			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Flash Rate</label>
@@ -1037,6 +1084,11 @@
 				<relation>ne</relation>
 				<value>6</value>				
 			</qualifier>
+			<qualifier>
+				<variableref>FX2 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>7</value>				
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Fade Rate</label>
 			<tooltip>choose a value 0 - 15</tooltip>
@@ -1051,7 +1103,7 @@
 			<qualifier>
 				<variableref>FX2 Efects Selection</variableref>
 				<relation>lt</relation>
-				<value>7</value>						
+				<value>8</value>						
 			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Flash Rate</label>
@@ -1079,6 +1131,11 @@
 				<relation>ne</relation>
 				<value>6</value>				
 			</qualifier>
+			<qualifier>
+				<variableref>FX3 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>7</value>				
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Fade Rate</label>
 			<tooltip>choose a value 0 - 15</tooltip>
@@ -1093,7 +1150,7 @@
 			<qualifier>
 				<variableref>FX3 Efects Selection</variableref>
 				<relation>lt</relation>
-				<value>7</value>						
+				<value>8</value>						
 			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Flash Rate</label>
@@ -1121,6 +1178,11 @@
 				<relation>ne</relation>
 				<value>6</value>				
 			</qualifier>
+			<qualifier>
+				<variableref>FX4 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>7</value>				
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Fade Rate</label>
 			<tooltip>choose a value 0 - 15</tooltip>
@@ -1135,7 +1197,7 @@
 			<qualifier>
 				<variableref>FX4 Efects Selection</variableref>
 				<relation>lt</relation>
-				<value>7</value>						
+				<value>8</value>						
 			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Flash Rate</label>
@@ -1163,6 +1225,11 @@
 				<relation>ne</relation>
 				<value>6</value>				
 			</qualifier>
+			<qualifier>
+				<variableref>FX5 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>7</value>				
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Fade Rate</label>
 			<tooltip>choose a value 0 - 15</tooltip>
@@ -1177,7 +1244,7 @@
 			<qualifier>
 				<variableref>FX5 Efects Selection</variableref>
 				<relation>lt</relation>
-				<value>7</value>						
+				<value>8</value>						
 			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Flash Rate</label>
@@ -1205,6 +1272,11 @@
 				<relation>ne</relation>
 				<value>6</value>				
 			</qualifier>
+			<qualifier>
+				<variableref>FX6 Efects Selection</variableref>
+				<relation>ne</relation>
+				<value>7</value>				
+			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Fade Rate</label>
 			<tooltip>choose a value 0 - 15</tooltip>
@@ -1219,7 +1291,7 @@
 			<qualifier>
 				<variableref>FX6 Efects Selection</variableref>
 				<relation>lt</relation>
-				<value>7</value>						
+				<value>8</value>						
 			</qualifier>
 			<decVal min="0" max="15"/>
 			<label>Flash Rate</label>
@@ -1428,7 +1500,7 @@
 			<qualifier>
 				<variableref>FX1 Efects Selection</variableref>
 				<relation>gt</relation>
-				<value>6</value>
+				<value>7</value>
 			</qualifier>
 			<decVal min="1" max="65"/>
 			<label>Holdover Time</label>
@@ -1439,7 +1511,7 @@
 			<qualifier>
 				<variableref>FX2 Efects Selection</variableref>
 				<relation>gt</relation>
-				<value>6</value>
+				<value>7</value>
 			</qualifier>
 			<decVal min="1" max="65"/>
 			<label>Holdover Time</label>
@@ -1450,7 +1522,7 @@
 			<qualifier>
 				<variableref>FX3 Efects Selection</variableref>
 				<relation>gt</relation>
-				<value>6</value>
+				<value>7</value>
 			</qualifier>
 			<decVal min="1" max="65"/>
 			<label>Holdover Time</label>
@@ -1461,7 +1533,7 @@
 			<qualifier>
 				<variableref>FX4 Efects Selection</variableref>
 				<relation>gt</relation>
-				<value>6</value>
+				<value>7</value>
 			</qualifier>
 			<decVal min="1" max="65"/>
 			<label>Holdover Time</label>
@@ -1483,7 +1555,7 @@
 			<qualifier>
 				<variableref>FX6 Efects Selection</variableref>
 				<relation>gt</relation>
-				<value>6</value>
+				<value>7</value>
 			</qualifier>
 			<decVal min="1" max="65"/>
 			<label>Holdover Time</label>
@@ -2365,26 +2437,7 @@
 				<label>Restore All CVs to Factory Defaults.</label>
 		</factReset>            
 	</resets>
-	</decoder>
-	<!-- <pane>
-		<name>Consist</name>
-		<column>
-			<row>
-				<label>
-					<text>If placed in a consist (address > 0), decoder will only respond to the consist address except for Programming</text>
-				</label>
-			</row>	
-			<row>
-				<display item="Consist Address"/>				
-			</row>
-			<label>
-				<text> </text>
-			</label>
-			<row>
-				<display item="Consist Direction"/>
-			</row>
-		</column>
-	</pane> -->
+	</decoder>	
 	<pane>
 		<name>Advanced</name>
 		<column>
@@ -2506,6 +2559,11 @@
 							<variableref>FX1 Efects Selection</variableref>
 							<relation>ne</relation>
 							<value>6</value>				
+						</qualifier>
+						<qualifier>
+							<variableref>FX1 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>7</value>				
 						</qualifier>
 						<text> </text>
 					</label>
@@ -2678,6 +2736,11 @@
 							<relation>ne</relation>
 							<value>6</value>				
 						</qualifier>
+						<qualifier>
+							<variableref>FX2 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>7</value>				
+						</qualifier>
 						<text> </text>
 					</label>
 					<row>
@@ -2848,6 +2911,11 @@
 							<variableref>FX3 Efects Selection</variableref>
 							<relation>ne</relation>
 							<value>6</value>				
+						</qualifier>
+						<qualifier>
+							<variableref>FX3 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>7</value>				
 						</qualifier>
 						<text> </text>
 					</label>
@@ -3020,6 +3088,11 @@
 							<relation>ne</relation>
 							<value>6</value>				
 						</qualifier>
+						<qualifier>
+							<variableref>FX4 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>7</value>				
+						</qualifier>
 						<text> </text>
 					</label>
 					<row>
@@ -3191,6 +3264,11 @@
 							<relation>ne</relation>
 							<value>6</value>				
 						</qualifier>
+						<qualifier>
+							<variableref>FX5 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>7</value>				
+						</qualifier>
 						<text> </text>
 					</label>
 					<row>
@@ -3361,6 +3439,11 @@
 							<variableref>FX6 Efects Selection</variableref>
 							<relation>ne</relation>
 							<value>6</value>				
+						</qualifier>
+						<qualifier>
+							<variableref>FX6 Efects Selection</variableref>
+							<relation>ne</relation>
+							<value>7</value>				
 						</qualifier>
 						<text> </text>
 					</label>

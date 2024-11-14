@@ -4,7 +4,7 @@
 #include <NmraDcc.h>
 #include "Output_Led.h"
 
-#define VERSION 11 // 1.1
+#define VERSION 12 // 1.2
 
 // This section defines the Arduino UNO Pins to use
 #ifdef __AVR_ATmega328P__
@@ -22,8 +22,8 @@ constexpr auto UNUSED_PINS = 23 - 2 - OUTPUTS;
 #error "Unsupported CPU, you need to add another configuration section for your CPU"
 #endif
 
-// Comment this line out after first initia
-#define InitalizeCVs
+// Comment this line out after first initialization
+//#define InitalizeCVs
 
 // cache function map
 uint8_t functionMap[FUNCTION_GROUPS][OUTPUTS];

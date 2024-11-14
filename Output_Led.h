@@ -28,6 +28,7 @@ typedef enum {
 	BEACON,
 	MARS,
 	FLICKER,
+	BLINK,
 	DITCH_A,
 	DITCH_B
 } MODES; 
