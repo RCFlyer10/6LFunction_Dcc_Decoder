@@ -1,13 +1,12 @@
 #include "Output_Led.h"
 
-uint8_t indexedValue[] = { 0, 2, 4, 8, 16, 24, 32, 56, 72, 88, 104, 120, 136, 168, 200, 255 };
 
 Output_Led::Output_Led(uint8_t pin) {
 	_pin = pin;
 	pinMode(pin, OUTPUT);
 	_state = Off;
 	_effect = 0;
-	_fade = 0;
+	_fadeValue = 0;
 	_fadeOn = false;
 	_fadeOff = false;
 	setState(Off);
@@ -20,8 +19,8 @@ void Output_Led::setEffect(uint8_t effect) {
 }
 
 void Output_Led::setConfig_1(uint8_t value) {	
-	_brightValue = indexedValue[value & 0x0f];	
-	_dimValue = indexedValue[(value & 0xf0) >> 4];
+	_brightValue = pgm_read_word(&brightnessTable[value & 0x0f]);
+	_dimValue = pgm_read_word(&brightnessTable[(value & 0xf0) >> 4]);
 	setFadeTime();
 }
 
@@ -90,7 +89,8 @@ void Output_Led::heartbeat() {
 		case NORMAL: 
 			if (_state == On) {
 				if (_fadeRate > 0) {
-					if (_fade < _brightValue) {
+					_fadeMax = _brightValue;
+					if (_fadeValue < _fadeMax) {
 						_fadeOn = true;
 					}
 				}
@@ -101,7 +101,7 @@ void Output_Led::heartbeat() {
 			}
 			else {
 				if (_fadeRate > 0) {
-					if (_fade > 0) {
+					if (_fadeValue > 0) {
 						_fadeOff = true;
 					}
 				}
@@ -147,9 +147,12 @@ void Output_Led::heartbeat() {
 			}
 			break;
 
-		case BLINK:
+		case EOT:
 			if (_state == On) {
-				if (currentMillis - _previousMillis >= PERIOD - (_flashRate << 1)) {
+				if (_speedSetting == 0 || (mySpeed <= _speedSetting)) {
+					_ledState = HIGH;					
+				}
+				else if (currentMillis - _previousMillis >= PERIOD - (_flashRate << 2)) {
 					_ledState = !_ledState;
 					_previousMillis = currentMillis;
 				}
@@ -167,36 +170,42 @@ void Output_Led::heartbeat() {
 		
 		case RANDOM: 
 			if (_state == On) {
-				if (_speedSetting != 0 && (mySpeed < _speedSetting || myDirection == DCC_DIR_REV)) {
-					if (_fade < _brightValue) {
+				if (_speedSetting == 0 || (mySpeed < _speedSetting || myDirection == DCC_DIR_REV)) {
+					_fadeMax = _brightValue;
+					if (_fadeValue < _brightValue) {
 						_fadeOn = true;
 						_fadeOff = false;
 					}
-					_ledState = HIGH;
-					_previousMillis = currentMillis;
+					_ledState = HIGH;					
 				}
-				else if (currentMillis - _previousMillis >= _sampleTime) {
-					if (_probability >= _randomNumber) {
-						if (_ledState == HIGH) {
-							_ledState = LOW;
-							if (_fade > 0) {
-								_fadeOff = true;
+				else {
+					_fadeMax = _dimValue;
+					if (currentMillis - _previousMillis >= _sampleTime) {
+						if (_probability >= _randomNumber) {
+							if (_ledState == HIGH) {
+								_ledState = LOW;
+								if (_fadeValue > 0) {
+									_fadeOff = true;
+								}
+							}
+							else {
+								_ledState = HIGH;
+								if (_fadeValue < _fadeMax) {
+									_fadeOn = true;
+								}
 							}
 						}
-						else {
-							_ledState = HIGH;
-							if (_fade < _brightValue) {
-								_fadeOn = true;
-							}
-						}
+						_randomNumber = random(100);
+						_previousMillis = currentMillis;
 					}
-					_randomNumber = random(100);
-					_previousMillis = currentMillis;
+					if (_fadeValue > _fadeMax) {
+						analogWrite(_pin, 255 - _fadeMax);
+					}
 				}
 			}
 			else {
 				_ledState = LOW;
-				if (_fade > 0) {
+				if (_fadeValue > 0) {
 					_fadeOff = true;
 				}			
 			}			
@@ -330,27 +339,27 @@ void Output_Led::heartbeat() {
 	}
 	if (_fadeOn) {
 		if (currentMillis - _fadeTimer >= _fadeTime) {
-			if (_fade < _brightValue) {
-				_fade += STEP;    									// increase fade by step					
+			if (_fadeValue < _fadeMax) {
+				_fadeValue += STEP;    									// increase fade by step					
 			}
-			if (_fade >= _brightValue) {
-				_fade = _brightValue;      							// keep fade in bounds
+			if (_fadeValue >= _fadeMax) {
+				_fadeValue = _fadeMax;      							// keep fade in bounds
 				_fadeOn = false;
 			}
-			analogWrite(_pin, 255 - _fade);
+			analogWrite(_pin, 255 - _fadeValue);
 			_fadeTimer = currentMillis;
 		}
 	}
 	if (_fadeOff) {
 		if (currentMillis - _fadeTimer >= _fadeTime) {
-			if (_fade > 0) {
-				_fade -= STEP;     									// decrease fade by step
+			if (_fadeValue > 0) {
+				_fadeValue -= STEP;     								// decrease fade by step
 			}
-			if (_fade <= 0) {
-				_fade = 0;                        					// keep fade in bounds
+			if (_fadeValue <= 0) {
+				_fadeValue = 0;                        					// keep fade in bounds
 				_fadeOff = false;
 			}
-			analogWrite(_pin, 255 - _fade);
+			analogWrite(_pin, 255 - _fadeValue);
 			_fadeTimer = currentMillis;
 		}				
 	}

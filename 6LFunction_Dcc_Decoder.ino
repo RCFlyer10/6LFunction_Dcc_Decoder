@@ -4,10 +4,10 @@
 #include <NmraDcc.h>
 #include "Output_Led.h"
 
-#define VERSION 12 // 1.2
+#define VERSION 13 // 1.3
 
-// This section defines the Arduino UNO Pins to use
-#ifdef __AVR_ATmega328P__
+// This section defines the AVR Pins to use
+#if defined __AVR_ATmega328P__ |__AVR_ATmega168P__
 
 // Define the Arduino input Pin number for the DCC Signal
 #define DCC_PIN 2
@@ -142,8 +142,6 @@ unsigned long saveStateTimer = 0;
 #define CV_F5_HOLDOVER 160
 #define CV_F6_HOLDOVER 161
 
-
-
 // function map CVs
 #define CV_FN_MAP_F1_F0_F4 200
 #define CV_FN_MAP_F1_F5_F8 201
@@ -175,8 +173,6 @@ unsigned long saveStateTimer = 0;
 #define CV_FN_MAP_F6_F9_F12 227
 #define CV_FN_MAP_F6_F13_F20 228
 #define CV_FN_MAP_F6_F21_F28 229
-
-
 
 #define CONFIG_END CV_F1_EFFECT + (FEATURES * OUTPUTS) - 1
 
@@ -273,7 +269,7 @@ CVPair FactoryDefaultCVs[] = {
 	{ CV_PROD_ID_1, 0},
 	{ CV_PROD_ID_2, 24},
 	{ CV_PROD_ID_3, 10},
-	{ CV_PROD_ID_4, 20},	
+	{ CV_PROD_ID_4, 21},	
 
 	// The CVs Below defines Advanced Consist Info
 	{ CV_CONSIST_ADDR, 0 },

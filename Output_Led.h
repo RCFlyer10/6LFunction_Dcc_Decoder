@@ -28,7 +28,7 @@ typedef enum {
 	BEACON,
 	MARS,
 	FLICKER,
-	BLINK,
+	EOT,
 	DITCH_A,
 	DITCH_B
 } MODES; 
@@ -50,6 +50,10 @@ typedef enum {
 extern DCC_DIRECTION myDirection;
 
 extern uint8_t mySpeed;
+
+const uint8_t brightnessTable[] PROGMEM = { 0, 2, 4, 8, 16, 24, 32, 56, 72, 88, 104, 120, 136, 168, 200, 255 };
+
+
 
 /*!
  *  @brief  Class that stores state and functions for the Funtion Led
@@ -83,6 +87,7 @@ private:
 	uint8_t _effect;
 	uint8_t _dimValue;
 	uint8_t _fadeRate;
+	uint8_t _fadeMax;
 	uint8_t _flashRate;
 	uint8_t _brightValue;
 	uint8_t _probability;
@@ -98,7 +103,7 @@ private:
 	bool _ledState;
 	bool _fadeOn;
 	bool _fadeOff;
-	int _fade;
+	int _fadeValue;
 	float _angle;
 	float _value;
 	float _step;
