@@ -1,10 +1,11 @@
 
 // NMRA Dcc Multifunction Lighting Decoder
 
+
 #include <NmraDcc.h>
 #include "Output_Led.h"
 
-#define VERSION 13 // 1.3
+#define VERSION 102 // 1.0.2
 
 // This section defines the AVR Pins to use
 #if defined __AVR_ATmega328P__ |__AVR_ATmega168P__
@@ -68,6 +69,9 @@ struct CVPair {
 	uint16_t CV;
 	uint8_t Value;
 };
+
+//float beaconStep;
+//float marsStep;
 
 unsigned long saveStateTimer = 0;
 
@@ -269,7 +273,7 @@ CVPair FactoryDefaultCVs[] = {
 	{ CV_PROD_ID_1, 0},
 	{ CV_PROD_ID_2, 24},
 	{ CV_PROD_ID_3, 10},
-	{ CV_PROD_ID_4, 21},	
+	{ CV_PROD_ID_4, 22},	
 
 	// The CVs Below defines Advanced Consist Info
 	{ CV_CONSIST_ADDR, 0 },
@@ -670,7 +674,7 @@ void setup() {
 	Dcc.pin(0, DCC_PIN, true);
 #endif
 
-	Dcc.init(MAN_ID_DIY, VERSION, FLAGS_AUTO_FACTORY_DEFAULT, 0);
+	Dcc.init(MAN_ID_DIY, VERSION, FLAGS_AUTO_FACTORY_DEFAULT, 0);	
 
 	createOutputs();
 

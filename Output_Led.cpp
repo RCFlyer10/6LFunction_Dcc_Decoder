@@ -5,30 +5,34 @@ Output_Led::Output_Led(uint8_t pin) {
 	_pin = pin;
 	pinMode(pin, OUTPUT);
 	_state = Off;
-	_effect = 0;
-	_fadeValue = 0;
-	_fadeOn = false;
-	_fadeOff = false;
+	_effect = 0;	
+	_fadeIndex = 0;
+	_fading = false;
 	setState(Off);
 	analogWrite(_pin, 255);
 }
 
 void Output_Led::setEffect(uint8_t effect) {
-	_effect = effect;
+	_effect = effect;	
 	setState(Off);
 }
 
-void Output_Led::setConfig_1(uint8_t value) {	
-	_brightValue = pgm_read_word(&brightnessTable[value & 0x0f]);
-	_dimValue = pgm_read_word(&brightnessTable[(value & 0xf0) >> 4]);
-	setFadeTime();
+void Output_Led::setConfig_1(uint8_t value) {
+	uint8_t temp;
+	_bright = value & 0x0f;
+	_brightIndex = (_bright * 16) + 15;	
+	_dim = (value & 0xf0) >> 4;
+	_dimIndex = (_dim * 16) + 15;
+	_beaconIntensity = pgm_read_word(&beaconBrightTable[_bright]);
+	_flashIntensity = pgm_read_word(&beaconFlashTable[_bright]);	
 }
 
-void Output_Led::setConfig_2(uint8_t value) {
-	_fadeRate = (value & 0x0f) * 17;
-	_flashRate = ((value & 0xf0) >> 4) * 17;	
-	_step = STEP_FACTOR * ((_flashRate * .002) + 0.74);
-	setFadeTime();
+void Output_Led::setConfig_2(uint8_t value) {	
+	_fadeRate = value & 0x0f;
+	_flashRate = (value & 0xf0) >> 4;	
+	_beaconPeriod = 14 - (_flashRate / 2);
+	_strobePeriod = 1700 - (_flashRate * 100);
+	_ditchPeriod = 1500 - (_flashRate * 78);
 }
 
 void Output_Led::setProbability(uint8_t value) {
@@ -40,7 +44,7 @@ void Output_Led::setSampleTime(uint8_t value) {
 }
 
 void Output_Led::setSpeed(uint8_t value) {
-	_speedSetting = value;
+	_setSpeed = value;
 }
 
 void Output_Led::setHoldoverTime(uint8_t value) {
@@ -49,17 +53,15 @@ void Output_Led::setHoldoverTime(uint8_t value) {
 
 void Output_Led::setState(bool state) {
 	if (_state != state) {
-		if (state == Off) {
-			_ledState = LOW;
+		if (state == On) {
+			_ledState = Off;
 			_crossingActive = false;
-			_previousMillis = 0;
-		}
-		else {
-			
-			_fadeDir = true;
+			_previousMillis = millis();
+			_fadeTimer = millis();
+			_fadeIndex = 0;
+			_radians = START_RADIAN;			
 			_fading = true;
-			_fadeOn = false;
-			_fadeOff = false;
+			_flash = false;
 			_randomNumber = random(100);
 		}			
 	}
@@ -77,66 +79,67 @@ void Output_Led::activateCrossing() {
 	}
 }
 
-void Output_Led::setFadeTime() {
-	uint8_t steps = _brightValue / STEP;
-	_fadeTime = (100 * _fadeRate) / steps;
-}
-
 void Output_Led::heartbeat() {
 	unsigned long currentMillis = millis();
 	switch (_effect) 
 	{
-		case NORMAL: 
-			if (_state == On) {
+		case NORMAL:
+			if (_state == Off || _setSpeed > 0 && mySpeed > _setSpeed) {
 				if (_fadeRate > 0) {
-					_fadeMax = _brightValue;
-					if (_fadeValue < _fadeMax) {
-						_fadeOn = true;
+					if (_fadeIndex > 0) {
+						if (currentMillis - _fadeTimer > (30 - _bright - _fadeRate)) {
+							_fadeIndex--;
+							_fadeTimer = currentMillis;
+						}
 					}
 				}
 				else {
-					analogWrite(_pin, 255 - _brightValue);					
+					_fadeIndex = 0;
 				}
-				
 			}
-			else {
+			else { // On or mySpeed < _setSpeed				
 				if (_fadeRate > 0) {
-					if (_fadeValue > 0) {
-						_fadeOff = true;
+					if (_fadeIndex < _brightIndex) {
+						if (currentMillis - _fadeTimer > (30 - _bright - _fadeRate)) {
+							_fadeIndex++;
+							_fadeTimer = currentMillis;
+							_ledState = On;
+						}
 					}
 				}
 				else {
-					analogWrite(_pin, 255);					
+					_fadeIndex = _brightIndex;
+					_ledState = On;
 				}
-				
-			}
-			break;
+			}			
+			analogWrite(_pin, 255 - pgm_read_word(&gamma8[_fadeIndex]));
+			break;		
 		
 		case AUTO_DIM: 
 			if (_state == On) {
 				if (myDirection == DCC_DIR_REV) {
-					analogWrite(_pin, 255 - _dimValue);
+					analogWrite(_pin, 255 - pgm_read_word(&gamma8[_dimIndex]));
 				}
-				else {
-					analogWrite(_pin, 255 - _brightValue);
+				else { 
+					analogWrite(_pin, 255 - pgm_read_word(&gamma8[_brightIndex])); 
 				}
 			}
-			else {
+			else { 
 				analogWrite(_pin, 255);
 			}
 			break;
 		
 		case STROBE: 
 			if (_state == On) {
-				if (currentMillis - _previousMillis >= PERIOD - (_flashRate << 1) && _ledState == LOW) {
+				if (_ledState == Off && currentMillis - _previousMillis > _strobePeriod) {
 					_previousMillis = currentMillis;
-					_ledState = HIGH;
+					_ledState = On;
 				}
-				else if (currentMillis - _previousMillis >= DURATION && _ledState == HIGH) {
-					_ledState = LOW;
+				else if (_ledState == On && currentMillis - _previousMillis > S_DURATION) {
+					_ledState = Off;
 				}
-				if (_ledState == HIGH) {
-					analogWrite(_pin, 255 - _brightValue);
+				if (_ledState == On) {
+					analogWrite(_pin, 255 - pgm_read_word(&gamma8[_brightIndex]));
 				}
 				else {
 					analogWrite(_pin, 255);
@@ -149,15 +152,15 @@ void Output_Led::heartbeat() {
 
 		case EOT:
 			if (_state == On) {
-				if (_speedSetting == 0 || (mySpeed <= _speedSetting)) {
-					_ledState = HIGH;					
+				if (_setSpeed == 0 || (mySpeed <= _setSpeed)) {
+					_ledState = On;					
 				}
-				else if (currentMillis - _previousMillis >= PERIOD - (_flashRate << 2)) {
+				else if (currentMillis - _previousMillis > _strobePeriod) {
 					_ledState = !_ledState;
 					_previousMillis = currentMillis;
 				}
-				if (_ledState == HIGH) {
-					analogWrite(_pin, 255 - _brightValue);
+				if (_ledState == On) {
+					analogWrite(_pin, 255 - pgm_read_word(&gamma8[_brightIndex]));
 				}
 				else {
 					analogWrite(_pin, 255);
@@ -166,116 +169,59 @@ void Output_Led::heartbeat() {
 			else {
 				analogWrite(_pin, 255);
 			}
-			break;
-		
-		case RANDOM: 
-			if (_state == On) {
-				if (_speedSetting == 0 || (mySpeed < _speedSetting || myDirection == DCC_DIR_REV)) {
-					_fadeMax = _brightValue;
-					if (_fadeValue < _brightValue) {
-						_fadeOn = true;
-						_fadeOff = false;
-					}
-					_ledState = HIGH;					
-				}
-				else {
-					_fadeMax = _dimValue;
-					if (currentMillis - _previousMillis >= _sampleTime) {
-						if (_probability >= _randomNumber) {
-							if (_ledState == HIGH) {
-								_ledState = LOW;
-								if (_fadeValue > 0) {
-									_fadeOff = true;
-								}
-							}
-							else {
-								_ledState = HIGH;
-								if (_fadeValue < _fadeMax) {
-									_fadeOn = true;
-								}
-							}
-						}
-						_randomNumber = random(100);
-						_previousMillis = currentMillis;
-					}
-					if (_fadeValue > _fadeMax) {
-						analogWrite(_pin, 255 - _fadeMax);
-					}
-				}
-			}
-			else {
-				_ledState = LOW;
-				if (_fadeValue > 0) {
-					_fadeOff = true;
-				}			
-			}			
-			break;
+			break;		
 		
 		case BEACON: 
 			if (_state == On) {
-				uint8_t intensity = _brightValue >> 1;
-				if (currentMillis - _previousMillis >= 8) {
+				if (currentMillis - _previousMillis > _beaconPeriod) {
+					double value = cos(_radians);
+					if (value > .90) {
+						analogWrite(_pin, 255 - _flashIntensity);
+					}
+					else {
+						analogWrite(_pin, 255 - ((value * _beaconIntensity) + _beaconIntensity));
+					}
+					_radians += BEACON_STEP;
+					if (_radians >= MAX_RADIAN) {
+						_radians = START_RADIAN;
+					}
 					_previousMillis = currentMillis;
-					_angle = _angle + _step;                                	// increase angle by step
 				}
-				if (_angle >= MAX_ANGLE) {                                   	// keep angle in bounds
-					_angle = START_ANGLE;
-				}
-				_value = sin(_angle) * intensity + intensity;         			// calculate fade, will follow sine wave
-				analogWrite(_pin, 255 - _value);                   				// set beacon to fade value
-			}
-			else {
-				analogWrite(_pin, 255);
+			}			
+			else { 
+				analogWrite(_pin, 255); 
 			}
 			break;
 		
 		case MARS: 
 			if (_state == On) {
-				static uint8_t fade = 0;
-				static uint8_t count = 0;
-				uint8_t intensity = _brightValue >> 3;
-				if (currentMillis - _previousMillis >= 44U - (_flashRate >> 3) && _fading) {
+				if (currentMillis - _previousMillis > _beaconPeriod) {
+					double value = cos(_radians);
+					if (value > .90 && _flash) {
+						analogWrite(_pin, 255 - _flashIntensity);
+					}
+					else {
+						analogWrite(_pin, 255 - ((value * _beaconIntensity) + _beaconIntensity));
+					}
+					_radians += MARS_STEP;
+					if (_radians >= MAX_RADIAN) {
+						_radians = START_RADIAN;						
+						_flash = !_flash;
+					}					
 					_previousMillis = currentMillis;
-					if (_fadeDir) {
-						fade++;
-					}
-					if (fade > intensity) {
-						fade = intensity;
-						_fadeDir = false;
-						count++;
-						if (count >= 3) {
-							analogWrite(_pin, 255 - _brightValue);
-							_fading = false;
-							count = 0;
-						}
-					}
-					if (!_fadeDir) {
-						fade--;
-					}
-					if (fade == 0) {
-						_fadeDir = true;
-						count++;
-					}
-					if (_fading) {
-						analogWrite(_pin, 255 - fade);
-					}
-				}
-				else if (currentMillis - _previousMillis >= DURATION) {
-					analogWrite(_pin, 250);
-					_fading = true;
 				}
 			}
 			else {
 				analogWrite(_pin, 255);
 			}
-			break;
+			break;			
 		
 		case FLICKER: 
 			if (_state == On) {
 
-				if (currentMillis - _previousMillis >= 255U - random(_flashRate)) {
+				if (currentMillis - _previousMillis > 120U - random(_flashRate << 3)) {
 					_previousMillis = currentMillis;
-					uint8_t temp = random(_dimValue, _brightValue);
+					uint8_t temp = random(pgm_read_word(&gamma8[_brightIndex]));
 					analogWrite(_pin, 255 - temp);
 				}
 			}
@@ -287,13 +233,13 @@ void Output_Led::heartbeat() {
 		case DITCH_A: 
 			if (_state == On) {
 				if (_crossingActive) {
-					if (currentMillis - _previousMillis > 1400U - (_flashRate << 2)) {
+					if (currentMillis - _previousMillis > _ditchPeriod) {
 						if (_phase == A) {
-							analogWrite(_pin, 255 - _brightValue);
+							analogWrite(_pin, 255 - pgm_read_word(&gamma8[_brightIndex]));
 							_phase = B;
 						}
 						else {
-							analogWrite(_pin, 255 - _dimValue);
+							analogWrite(_pin, 255 - pgm_read_word(&gamma8[_dimIndex]));
 							_phase = A;
 						}
 						_previousMillis = currentMillis;
@@ -303,23 +249,24 @@ void Output_Led::heartbeat() {
 					}
 				}
 				else {
-					analogWrite(_pin, 255 - _brightValue);
+					analogWrite(_pin, 255 - pgm_read_word(&gamma8[_brightIndex]));
 				}
 			}
 			else {
 				analogWrite(_pin, 255);
 			}
+			break;
 		
 		case DITCH_B: 
 			if (_state == On) {
 				if (_crossingActive) {
-					if (currentMillis - _previousMillis > 1400U - (_flashRate << 2)) {
+					if (currentMillis - _previousMillis > _ditchPeriod) {
 						if (_phase == B) {
-							analogWrite(_pin, 255 - _brightValue);
+							analogWrite(_pin, 255 - pgm_read_word(&gamma8[_brightIndex]));
 							_phase = A;
 						}
 						else {
-							analogWrite(_pin, 255 - _dimValue);
+							analogWrite(_pin, 255 - pgm_read_word(&gamma8[_dimIndex]));
 							_phase = B;
 						}
 						_previousMillis = currentMillis;
@@ -329,38 +276,103 @@ void Output_Led::heartbeat() {
 					}
 				}
 				else {
-					analogWrite(_pin, 255 - _brightValue);
+					analogWrite(_pin, 255 - pgm_read_word(&gamma8[_brightIndex]));
 				}
 			}
 			else {
 				analogWrite(_pin, 255);
 			}
-		break;		
-	}
-	if (_fadeOn) {
-		if (currentMillis - _fadeTimer >= _fadeTime) {
-			if (_fadeValue < _fadeMax) {
-				_fadeValue += STEP;    									// increase fade by step					
+			break;	
+
+		case RANDOM:
+			if (_state == On) {
+				if (_setSpeed == 0 || mySpeed < _setSpeed || myDirection == DCC_DIR_REV) {
+					if (_fadeIndex < _brightIndex) {
+						if (_fadeRate > 0) {
+							if (currentMillis - _fadeTimer > (30 - _bright - _fadeRate)) {
+								_fadeIndex++;
+								_fadeTimer = currentMillis;
+							}
+						}
+						else {
+							_fadeIndex = _brightIndex;
+						}						
+					}
+					if (_fadeIndex > 0) {
+						_ledState = On;
+					}
+					_fading = false;
+				}				
+				else if (_fadeIndex > _dimIndex) {
+					if (_fadeRate > 0) {
+						if (currentMillis - _fadeTimer > (30 - _dim - _fadeRate)) {
+							_fadeIndex--;
+							_fadeTimer = currentMillis;
+						}
+					}
+					else {
+						_fadeIndex = _dimIndex;
+					}					
+				}
+				else if (currentMillis - _previousMillis > _sampleTime) {
+					if (_probability > _randomNumber) {
+						if (_fadeRate == 0) {
+							if (_ledState == On) {
+								_fadeIndex = 0;
+							}
+							else {
+								_fadeIndex = _dimIndex;
+							}
+						}
+						else {
+							_fading = true;
+						}
+					}						
+					_randomNumber = random(100);
+					_previousMillis = currentMillis;
+				}					
+				if (_fading) {
+					if (_ledState == On) {
+						if (_fadeIndex > 0) {
+							if (currentMillis - _fadeTimer > (30 - _bright - _fadeRate)) {
+								_fadeIndex--;
+								_fadeTimer = currentMillis;
+							}
+						}
+						if (_fadeIndex == 0) {
+							_ledState = Off;
+							_fading = false;
+						}
+					}
+					else {
+						if (_fadeIndex < _dimIndex) {
+							if (currentMillis - _fadeTimer > (30 - _bright - _fadeRate)) {
+								_fadeIndex++;
+								_fadeTimer = currentMillis;
+							}
+						}
+						if (_fadeIndex == _dimIndex) {
+							_ledState = On;
+							_fading = false;
+						}
+					}
+				}				
 			}
-			if (_fadeValue >= _fadeMax) {
-				_fadeValue = _fadeMax;      							// keep fade in bounds
-				_fadeOn = false;
-			}
-			analogWrite(_pin, 255 - _fadeValue);
-			_fadeTimer = currentMillis;
-		}
-	}
-	if (_fadeOff) {
-		if (currentMillis - _fadeTimer >= _fadeTime) {
-			if (_fadeValue > 0) {
-				_fadeValue -= STEP;     								// decrease fade by step
-			}
-			if (_fadeValue <= 0) {
-				_fadeValue = 0;                        					// keep fade in bounds
-				_fadeOff = false;
-			}
-			analogWrite(_pin, 255 - _fadeValue);
-			_fadeTimer = currentMillis;
-		}				
-	}
+			else if (_fadeIndex > 0) {
+				if (_fadeRate > 0) {
+					if (currentMillis - _fadeTimer > (30 - _bright - _fadeRate)) {
+						_fadeIndex--;
+						_fadeTimer = currentMillis;
+					}
+				}
+				else {
+					_fadeIndex = 0;
+				}
+				if (_fadeIndex == 0) {
+					_ledState = Off;
+				}
+			}			
+			analogWrite(_pin, 255 - pgm_read_word(&gamma8[_fadeIndex]));
+			break;
+	}	
 }
