@@ -437,6 +437,7 @@ void configureUnusedPins() {
 void createOutputs() {
 	uint8_t pins[] = { 3, 5, 6 , 11 , 10, 9 };
 	for (uint8_t i = 0; i < OUTPUTS; i++) {
+		//digitalWrite(pins[i], Off);
 		outputList[i] = new Output_Led(pins[i]);
 	}
 }
@@ -654,11 +655,13 @@ void notifyDccFunc(uint16_t Addr, DCC_ADDR_TYPE AddrType, FN_GROUP FuncGrp, uint
 
 void notifyCVAck(void) {
 	digitalWrite(ACK_PIN, HIGH);
-	delay(8);
+	delay(6);
 	digitalWrite(ACK_PIN, LOW);
 }
 
 void setup() {
+	createOutputs();
+	
 	configureUnusedPins();
 
 	// Setup the Pin for the ACK  
@@ -675,8 +678,6 @@ void setup() {
 #endif
 
 	Dcc.init(MAN_ID_DIY, VERSION, FLAGS_AUTO_FACTORY_DEFAULT, 0);	
-
-	createOutputs();
 
 	setAddress();
 

@@ -2,19 +2,15 @@
 
 
 Output_Led::Output_Led(uint8_t pin) {
-	_pin = pin;
-	pinMode(pin, OUTPUT);
-	_state = Off;
+	_pin = pin;	
 	_effect = 0;	
 	_fadeIndex = 0;
 	_fading = false;
-	setState(Off);
-	analogWrite(_pin, 255);
+	setState(Off);	
 }
 
 void Output_Led::setEffect(uint8_t effect) {
 	_effect = effect;	
-	setState(Off);
 }
 
 void Output_Led::setConfig_1(uint8_t value) {
@@ -59,13 +55,13 @@ void Output_Led::setState(bool state) {
 			_previousMillis = millis();
 			_fadeTimer = millis();
 			_fadeIndex = 0;
-			_radians = START_RADIAN;			
+			_radians = START_RADIAN;
 			_fading = true;
 			_flash = false;
 			_randomNumber = random(100);
-		}			
-	}
-	_state = state;
+		}
+		_state = state;
+	}	
 }
 
 void Output_Led::activateCrossing() {
@@ -112,20 +108,20 @@ void Output_Led::heartbeat() {
 					_ledState = On;
 				}
 			}			
-			analogWrite(_pin, 255 - pgm_read_word(&gamma8[_fadeIndex]));
+			analogWrite(_pin, pgm_read_word(&gamma8[_fadeIndex]));
 			break;		
 		
 		case AUTO_DIM: 
 			if (_state == On) {
 				if (myDirection == DCC_DIR_REV) {
-					analogWrite(_pin, 255 - pgm_read_word(&gamma8[_dimIndex]));
+					analogWrite(_pin, pgm_read_word(&gamma8[_dimIndex]));
 				}
 				else { 
-					analogWrite(_pin, 255 - pgm_read_word(&gamma8[_brightIndex])); 
+					analogWrite(_pin, pgm_read_word(&gamma8[_brightIndex])); 
 				}
 			}
 			else { 
-				analogWrite(_pin, 255);
+				analogWrite(_pin, 0);
 			}
 			break;
 		
@@ -139,14 +135,14 @@ void Output_Led::heartbeat() {
 					_ledState = Off;
 				}
 				if (_ledState == On) {
-					analogWrite(_pin, 255 - pgm_read_word(&gamma8[_brightIndex]));
+					analogWrite(_pin, pgm_read_word(&gamma8[_brightIndex]));
 				}
 				else {
-					analogWrite(_pin, 255);
+					analogWrite(_pin, 0);
 				}
 			}
 			else {
-				analogWrite(_pin, 255);
+				analogWrite(_pin, 0);
 			}
 			break;
 
@@ -160,14 +156,14 @@ void Output_Led::heartbeat() {
 					_previousMillis = currentMillis;
 				}
 				if (_ledState == On) {
-					analogWrite(_pin, 255 - pgm_read_word(&gamma8[_brightIndex]));
+					analogWrite(_pin, pgm_read_word(&gamma8[_brightIndex]));
 				}
 				else {
-					analogWrite(_pin, 255);
+					analogWrite(_pin, 0);
 				}
 			}
 			else {
-				analogWrite(_pin, 255);
+				analogWrite(_pin, 0);
 			}
 			break;		
 		
@@ -176,10 +172,10 @@ void Output_Led::heartbeat() {
 				if (currentMillis - _previousMillis > _beaconPeriod) {
 					double value = cos(_radians);
 					if (value > .90) {
-						analogWrite(_pin, 255 - _flashIntensity);
+						analogWrite(_pin, _flashIntensity);
 					}
 					else {
-						analogWrite(_pin, 255 - ((value * _beaconIntensity) + _beaconIntensity));
+						analogWrite(_pin, (value * _beaconIntensity) + _beaconIntensity);
 					}
 					_radians += BEACON_STEP;
 					if (_radians >= MAX_RADIAN) {
@@ -189,7 +185,7 @@ void Output_Led::heartbeat() {
 				}
 			}			
 			else { 
-				analogWrite(_pin, 255); 
+				analogWrite(_pin, 0); 
 			}
 			break;
 		
@@ -198,10 +194,10 @@ void Output_Led::heartbeat() {
 				if (currentMillis - _previousMillis > _beaconPeriod) {
 					double value = cos(_radians);
 					if (value > .90 && _flash) {
-						analogWrite(_pin, 255 - _flashIntensity);
+						analogWrite(_pin, _flashIntensity);
 					}
 					else {
-						analogWrite(_pin, 255 - ((value * _beaconIntensity) + _beaconIntensity));
+						analogWrite(_pin, (value * _beaconIntensity) + _beaconIntensity);
 					}
 					_radians += MARS_STEP;
 					if (_radians >= MAX_RADIAN) {
@@ -212,7 +208,7 @@ void Output_Led::heartbeat() {
 				}
 			}
 			else {
-				analogWrite(_pin, 255);
+				analogWrite(_pin, 0);
 			}
 			break;			
 		
@@ -222,11 +218,11 @@ void Output_Led::heartbeat() {
 				if (currentMillis - _previousMillis > 120U - random(_flashRate << 3)) {
 					_previousMillis = currentMillis;
 					uint8_t temp = random(pgm_read_word(&gamma8[_brightIndex]));
-					analogWrite(_pin, 255 - temp);
+					analogWrite(_pin, temp);
 				}
 			}
 			else {
-				analogWrite(_pin, 255);
+				analogWrite(_pin, 0);
 			}
 			break;
 		
@@ -235,11 +231,11 @@ void Output_Led::heartbeat() {
 				if (_crossingActive) {
 					if (currentMillis - _previousMillis > _ditchPeriod) {
 						if (_phase == A) {
-							analogWrite(_pin, 255 - pgm_read_word(&gamma8[_brightIndex]));
+							analogWrite(_pin, pgm_read_word(&gamma8[_brightIndex]));
 							_phase = B;
 						}
 						else {
-							analogWrite(_pin, 255 - pgm_read_word(&gamma8[_dimIndex]));
+							analogWrite(_pin, pgm_read_word(&gamma8[_dimIndex]));
 							_phase = A;
 						}
 						_previousMillis = currentMillis;
@@ -249,11 +245,11 @@ void Output_Led::heartbeat() {
 					}
 				}
 				else {
-					analogWrite(_pin, 255 - pgm_read_word(&gamma8[_brightIndex]));
+					analogWrite(_pin, pgm_read_word(&gamma8[_brightIndex]));
 				}
 			}
 			else {
-				analogWrite(_pin, 255);
+				analogWrite(_pin, 0);
 			}
 			break;
 		
@@ -262,11 +258,11 @@ void Output_Led::heartbeat() {
 				if (_crossingActive) {
 					if (currentMillis - _previousMillis > _ditchPeriod) {
 						if (_phase == B) {
-							analogWrite(_pin, 255 - pgm_read_word(&gamma8[_brightIndex]));
+							analogWrite(_pin, pgm_read_word(&gamma8[_brightIndex]));
 							_phase = A;
 						}
 						else {
-							analogWrite(_pin, 255 - pgm_read_word(&gamma8[_dimIndex]));
+							analogWrite(_pin, pgm_read_word(&gamma8[_dimIndex]));
 							_phase = B;
 						}
 						_previousMillis = currentMillis;
@@ -276,11 +272,11 @@ void Output_Led::heartbeat() {
 					}
 				}
 				else {
-					analogWrite(_pin, 255 - pgm_read_word(&gamma8[_brightIndex]));
+					analogWrite(_pin, pgm_read_word(&gamma8[_brightIndex]));
 				}
 			}
 			else {
-				analogWrite(_pin, 255);
+				analogWrite(_pin, 0);
 			}
 			break;	
 
@@ -372,7 +368,7 @@ void Output_Led::heartbeat() {
 					_ledState = Off;
 				}
 			}			
-			analogWrite(_pin, 255 - pgm_read_word(&gamma8[_fadeIndex]));
+			analogWrite(_pin, pgm_read_word(&gamma8[_fadeIndex]));
 			break;
 	}	
 }
