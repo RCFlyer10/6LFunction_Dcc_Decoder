@@ -27,7 +27,7 @@ constexpr auto UNUSED_PINS = 23 - 2 - OUTPUTS;
 //#define InitalizeCVs
 
 // cache function map
-uint8_t functionMap[FUNCTION_GROUPS][OUTPUTS];
+uint8_t functionMap[OUTPUTS][FUNCTION_GROUPS];
 
 // cache last DCC function state by function group
 uint8_t lastDCCFunc[FUNCTION_GROUPS];
@@ -386,29 +386,29 @@ void updateOutputs(uint16_t CV, uint8_t Value) {
 }
 
 void updateFunctionMap(uint16_t CV, uint8_t Value) {
-	uint8_t x = CV % FUNCTION_GROUPS;
-	uint8_t y;
+	uint8_t col = CV % FUNCTION_GROUPS;
+	uint8_t row;
 	switch (CV) 
 	{
 		case CV_FN_MAP_F1_F0_F4 ... CV_FN_MAP_F1_F21_F28:
-			y = 0;
+			row = 0;
 			break;
 		case CV_FN_MAP_F2_F0_F4 ... CV_FN_MAP_F2_F21_F28:
-			y = 1;
+			row = 1;
 			break;
 		case CV_FN_MAP_F3_F0_F4 ... CV_FN_MAP_F3_F21_F28:
-			y = 2;
+			row = 2;
 			break;
 		case CV_FN_MAP_F4_F0_F4 ... CV_FN_MAP_F4_F21_F28:
-			y = 3;
+			row = 3;
 			break;
 		case CV_FN_MAP_F5_F0_F4 ... CV_FN_MAP_F5_F21_F28:
-			y = 4;
+			row = 4;
 			break;
 		default:
-			y = 5;
+			row = 5;
 	}
-	functionMap[x][y] = Value;
+	functionMap[row][col] = Value;
 }
 
 void setAddress() {		
@@ -429,120 +429,17 @@ void setAddress() {
 
 void configureUnusedPins() {
 	uint8_t unusedPins[] = { 0, 1, 4, 7, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22};
-	for (uint8_t i = 0; i < UNUSED_PINS; i++) {
-		pinMode(unusedPins[i], INPUT_PULLUP);
-	}
+	for (auto& pin : unusedPins) {
+		pinMode(pin, INPUT_PULLUP);
+	}	
 }
 
 void createOutputs() {
-	uint8_t pins[] = { 3, 5, 6 , 11 , 10, 9 };
-	for (uint8_t i = 0; i < OUTPUTS; i++) {
-		//digitalWrite(pins[i], Off);
-		outputList[i] = new Output_Led(pins[i]);
-	}
-}
-
-void processConsistFunctions(FN_GROUP FuncGrp, uint8_t FuncState) {
-
-	bool enabled = false;
-	
-	uint8_t function = lastConsistFunc[FuncGrp - 1] ^ FuncState;
-
-	if (function ) {
-
-		switch (FuncGrp) {
-
-		case FN_0_4:
-			if (function & FN_BIT_00 && consistFLF9F12 & 0x01 && myDirection == DCC_DIR_FWD) enabled = true;
-			else if (function & FN_BIT_00 && consistFLF9F12 & 0x02 && myDirection == DCC_DIR_REV) enabled = true;
-			else if (function & FN_BIT_01 && consistF1F8 & 0x01) enabled = true;
-			else if (function & FN_BIT_02 && consistF1F8 & 0x02) enabled = true;
-			else if (function & FN_BIT_03 && consistF1F8 & 0x04) enabled = true;
-			else if (function & FN_BIT_04 && consistF1F8 & 0x08) enabled = true;
-			break;
-
-		case FN_5_8:
-			if (function & FN_BIT_05 && consistF1F8 & 0x10) enabled = true;
-			else if (function & FN_BIT_06 && consistF1F8 & 0x20) enabled = true;
-			else if (function & FN_BIT_07 && consistF1F8 & 0x40) enabled = true;
-			else if (function & FN_BIT_08 && consistF1F8 & 0x80) enabled = true;
-			break;
-
-		case FN_9_12:
-			if (function & FN_BIT_09 && consistFLF9F12 & 0x04) enabled = true;
-			else if (function & FN_BIT_10 && consistFLF9F12 & 0x08) enabled = true;
-			else if (function & FN_BIT_11 && consistFLF9F12 & 0x10) enabled = true;
-			else if (function & FN_BIT_12 && consistFLF9F12 & 0x20) enabled = true;
-			break;
-
-		case FN_13_20:
-			if (function & FN_BIT_13 && consistF13F20 & 0x01) enabled = true;
-			else if (function & FN_BIT_14 && consistF13F20 & 0x02) enabled = true;
-			else if (function & FN_BIT_15 && consistF13F20 & 0x04) enabled = true;
-			else if (function & FN_BIT_16 && consistF13F20 & 0x08) enabled = true;
-			else if (function & FN_BIT_17 && consistF13F20 & 0x10) enabled = true;
-			else if (function & FN_BIT_18 && consistF13F20 & 0x20) enabled = true;
-			else if (function & FN_BIT_19 && consistF13F20 & 0x40) enabled = true;
-			else if (function & FN_BIT_20 && consistF13F20 & 0x80) enabled = true;
-			break;
-
-		case FN_21_28:
-			if (function & FN_BIT_21 && consistF21F28 & 0x01) enabled = true;
-			else if (function & FN_BIT_22 && consistF21F28 & 0x02) enabled = true;
-			else if (function & FN_BIT_23 && consistF21F28 & 0x04) enabled = true;
-			else if (function & FN_BIT_24 && consistF21F28 & 0x08) enabled = true;
-			else if (function & FN_BIT_25 && consistF21F28 & 0x10) enabled = true;
-			else if (function & FN_BIT_26 && consistF21F28 & 0x20) enabled = true;
-			else if (function & FN_BIT_27 && consistF21F28 & 0x40) enabled = true;
-			else if (function & FN_BIT_28 && consistF21F28 & 0x80) enabled = true;
-		}
-	}
-
-	if (enabled) {
-
-		if (function & FuncState) {
-
-			for (uint8_t i = 0; i < OUTPUTS; i++) {
-
-				uint8_t mappedFunc = functionMap[FuncGrp - 1][i];
-
-				if (mappedFunc) {
-
-					if (function & mappedFunc) {
-
-						outputList[i]->setState(On);
-						outputStates[i] = On;
-					}
-				}
-			}
-
-			if ((FuncGrp == FN_0_4) && (function & FN_BIT_02)) {
-				for (uint8_t i = 0; i < OUTPUTS; i++) {
-					outputList[i]->activateCrossing();
-				}
-			}
-
-		}
-
-		else {
-
-			for (uint8_t i = 0; i < OUTPUTS; i++) {
-
-				uint8_t mappedFunc = functionMap[FuncGrp - 1][i];
-
-				if (mappedFunc) {
-
-					if (function & mappedFunc) {
-
-						outputList[i]->setState(Off);
-						outputStates[i] = Off;
-					}
-				}
-			}
-		}
-	}
-
-	lastConsistFunc[FuncGrp - 1] = FuncState;
+	uint8_t pins[] = { 3, 5, 6 , 11 , 10, 9 }; // PWM pins in proper order
+	uint8_t* pin = pins;
+	for (auto& output : outputList) {
+		output = new Output_Led(*pin++);
+	}	
 }
 
 void notifyCVResetFactoryDefault() {
@@ -551,108 +448,153 @@ void notifyCVResetFactoryDefault() {
 	FactoryDefaultCVIndex = sizeof(FactoryDefaultCVs) / sizeof(CVPair);
 }
 
-// This call-back function is called whenever we receive a DCC Speed packet for our address
-void notifyDccSpeed(uint16_t Addr, DCC_ADDR_TYPE AddrType, uint8_t Speed, DCC_DIRECTION Dir, DCC_SPEED_STEPS SpeedSteps) {	
+// This call-back function is called whenever we receive a DCC Speed packet
+void notifyDccSpeed(uint16_t Addr, DCC_ADDR_TYPE AddrType, uint8_t Speed, DCC_DIRECTION Dir, DCC_SPEED_STEPS SpeedSteps) {
 
-	if (Addr == myAddress && inConsist == false || Addr == consistAddress && inConsist == true) {
+	// speed and direction changes only by normal address when not consited or by consit address when consited
+	if ((Addr == myAddress && !inConsist) || (Addr == consistAddress && inConsist)) {
+
+		bool dirBit = (cv29Config & CV29_LOCO_DIR) ^ Dir; // direction based on CV29_LOCO_DIR and throttle Dir
 
 		if (inConsist && consistDirection == DCC_DIR_REV) {
-
-			myDirection = ((cv29Config & CV29_LOCO_DIR) ^ Dir) ? DCC_DIR_REV : DCC_DIR_FWD;
+			myDirection = dirBit ? DCC_DIR_REV : DCC_DIR_FWD; // invert the direction
+		}
+		else {
+			myDirection = dirBit ? DCC_DIR_FWD : DCC_DIR_REV;
 		}
 
-		else {
-
-			myDirection = ((cv29Config & CV29_LOCO_DIR) ^ Dir) ? DCC_DIR_FWD : DCC_DIR_REV;
-
-			Dcc.setCV(CV_ERROR, myDirection);
-		}			
-
-		for (uint8_t i = 0; i < OUTPUTS; i++) {
-
+		// correct output states for direction
+		uint8_t i = 0;
+		for (auto& output : outputList) {
 			if (outputStates[i]) {
-
 				if (myDirection == DCC_DIR_FWD) {
-
-					outputList[i]->setState((fwdDirEnable & 1 << i));
+					output->setState((fwdDirEnable & (1 << i)));
 				}
 				else {
-
-					outputList[i]->setState((revDirEnable & 1 << i));
+					output->setState((revDirEnable & (1 << i)));
 				}
-			}
+			} 
+
+			i++;
 		}
 
 		mySpeed = Speed;
-	}		
+	}
 }
 
-// This call-back function is called whenever we receive a DCC Function packet for our address
+
+// This call-back function is called whenever we receive a DCC Function packet
 void notifyDccFunc(uint16_t Addr, DCC_ADDR_TYPE AddrType, FN_GROUP FuncGrp, uint8_t FuncState) {
-	uint8_t function = 0;
+	uint8_t changedFuncs = 0;
+	bool enabled = false;
+	uint8_t prevState;
 
-	if (Addr == consistAddress && inConsist == true) {
+	if (Addr == consistAddress && inConsist) {
+		prevState = lastConsistFunc[FuncGrp - 1];
+		changedFuncs = prevState ^ FuncState;
 
-		processConsistFunctions(FuncGrp, FuncState);
+		if (changedFuncs) {
+			enabled = checkConsistFunctions(FuncGrp, changedFuncs);
+		}
+		lastConsistFunc[FuncGrp - 1] = FuncState;
+	}
+	else if (Addr == myAddress) {
+		prevState = lastDCCFunc[FuncGrp - 1];
+		changedFuncs = prevState ^ FuncState;
+
+		if (changedFuncs) {
+			enabled = true;
+		}
+		lastDCCFunc[FuncGrp - 1] = FuncState;
 	}
 
-	else if (Addr == myAddress) {		
-		
-		function = lastDCCFunc[FuncGrp - 1] ^ FuncState;
+	if (enabled) {
+		bool state = (changedFuncs & FuncState) ? On : Off;
+		updateOutputs(FuncGrp, changedFuncs, state);
+	}
+}
 
-		if (function) {
+// Helper function: Checks if consist functions should enable outputs
+bool checkConsistFunctions(FN_GROUP FuncGrp, uint8_t changedFuncs) {
+	uint8_t mask, consistByte;
+	uint8_t startBit, endBit;
 
-			if (function & FuncState) {
+	switch (FuncGrp) {
+	case FN_0_4:
+		return ((changedFuncs & FN_BIT_00) && ((consistFLF9F12 & 0x01 && myDirection == DCC_DIR_FWD) ||
+			(consistFLF9F12 & 0x02 && myDirection == DCC_DIR_REV))) ||
+			((changedFuncs & FN_BIT_01) && (consistF1F8 & 0x01)) ||
+			((changedFuncs & FN_BIT_02) && (consistF1F8 & 0x02)) ||
+			((changedFuncs & FN_BIT_03) && (consistF1F8 & 0x04)) ||
+			((changedFuncs & FN_BIT_04) && (consistF1F8 & 0x08));
 
-				for (uint8_t i = 0; i < OUTPUTS; i++) {
+	case FN_5_8:
+		mask = 0x10; // Starting from bit 4 in consistF1F8
+		consistByte = consistF1F8;
+		startBit = 5;
+		endBit = 8;
+		break;
 
-					uint8_t mappedFunc = functionMap[FuncGrp - 1][i];
+	case FN_9_12:
+		mask = 0x04; // Starting from bit 2 in consistFLF9F12
+		consistByte = consistFLF9F12;
+		startBit = 9;
+		endBit = 12;
+		break;
 
-					if (mappedFunc) {
+	case FN_13_20:
+		mask = 0x01;
+		consistByte = consistF13F20;
+		startBit = 13;
+		endBit = 20;
+		break;
 
-						if (function & mappedFunc) {
+	case FN_21_28:
+		mask = 0x01;
+		consistByte = consistF21F28;
+		startBit = 21;
+		endBit = 28;
+		break;
 
-							outputList[i]->setState(On);
-							outputStates[i] = On;
-						}
-					}
-				}
+	default:
+		return false;
+	}
 
-				if ((FuncGrp == FN_0_4) && (function & FN_BIT_02)) {
-					for (uint8_t i = 0; i < OUTPUTS; i++) {
-						outputList[i]->activateCrossing();
-					}
-				}
+	for (uint8_t i = startBit; i <= endBit; i++) {
+		if ((changedFuncs & (1 << i)) && (consistByte & mask)) {
+			return true;
+		}
+		mask <<= 1;
+	}
+	return false;
+}
 
+// Helper function: Updates outputs based on function changes
+void updateOutputs(FN_GROUP FuncGrp, uint8_t changedFuncs, bool state) {
+	uint8_t i = 0;
+	for (auto& output : outputList) {
+		if (changedFuncs & functionMap[i][FuncGrp - 1]) {
+			if (myDirection == DCC_DIR_FWD) {
+				output->setState(state && (fwdDirEnable & 1 << i));
 			}
-
 			else {
-
-				for (uint8_t i = 0; i < OUTPUTS; i++) {
-
-					uint8_t mappedFunc = functionMap[FuncGrp - 1][i];
-
-					if (mappedFunc) {
-
-						if (function & mappedFunc) {
-
-							outputList[i]->setState(Off);
-							outputStates[i] = Off;
-						}
-					}
-				}
+				output->setState(state && (revDirEnable & 1 << i));
 			}
 			
+			outputStates[i] = state;			
 		}
 
-		lastDCCFunc[FuncGrp - 1] = FuncState;
+		// Special case for F2 (Function 2 in FN_0_4 group)
+		if (state && (FuncGrp == FN_0_4) && (changedFuncs & FN_BIT_02)) {
+			output->activateCrossing();
+		}
+
+		i++;
 	}
 }
 
 // This call-back function is called by the NmraDcc library when a DCC ACK needs to be sent
 // Calling this function should cause an increased 60ma current drain on the power supply for 6ms to ACK a CV Read
-// So we will just turn the motor on for 8ms and then turn it off again.
-
 void notifyCVAck(void) {
 	digitalWrite(ACK_PIN, HIGH);
 	delay(6);
@@ -670,7 +612,6 @@ void setup() {
 	// Setup which External Interrupt, the Pin it's associated with that we're using and enable the Pull-Up
 	// Many Arduino Cores now support the digitalPinToInterrupt() function that makes it easier to figure out the
 	// Interrupt Number for the Arduino Pin number, which reduces confusion.
-
 #ifdef digitalPinToInterrupt
 	Dcc.pin(DCC_PIN, true);
 #else
@@ -687,15 +628,10 @@ void setup() {
 	cv29Config = Dcc.getCV(CV_29_CONFIG);
 
 	// cache Function Map
-	uint16_t index = CV_FN_MAP_F1_F0_F4;
-	uint8_t functionBits;
-	for (int x = 0; x < OUTPUTS; x++) {
-		for (int y = 0; y < FUNCTION_GROUPS; y++) {
-			functionBits = Dcc.getCV(index);
-			if (functionBits > 0) {
-				functionMap[y][x] = functionBits;
-			}
-			index++;
+	uint16_t index = CV_FN_MAP_F1_F0_F4;	
+	for (auto& row : functionMap) {
+		for (auto& col : row) {
+			col = Dcc.getCV(index++);
 		}
 	}
 
@@ -729,9 +665,9 @@ void loop() {
 		saveStateTimer = millis();
 	}
 
-	for (int i = 0; i < OUTPUTS; i++) {
-		outputList[i]->heartbeat();
-	}
+	for (auto& output : outputList) {
+		output->heartbeat();
+	}	
 
 	// Handle resetting CVs back to Factory Defaults
 	if (FactoryDefaultCVIndex && Dcc.isSetCVReady()) {
@@ -741,10 +677,11 @@ void loop() {
 
 	// If power lost, save function states
 	if (millis() - saveStateTimer >= packetTimeOut * 1000) {
-		if (outputStateSave) {
-			for (uint8_t i = 0; i < OUTPUTS; i++) {
-				Dcc.setCV(F1_SAVE_STATE + i, outputStates[i]);
-			}
+		if (outputStateSave) { 
+			uint8_t i = 0;
+			for (auto& outputState : outputStates) {
+				Dcc.setCV(F1_SAVE_STATE + i++, outputState);
+			}			
 		}
 	}
 }
